@@ -8,8 +8,9 @@ typedef struct {
 } System;
 
 // Them san pham : ma | ten | loai | so luong | gia nhap | gia ban
-void SystemAddNewProduct(int ProducID, char *productName, char *productCategory,
-                         int quantity, unsigned long int priceImport,
+void SystemAddNewProduct(System *system, int productID, char *productName,
+                         char *productCategory, int quantity,
+                         unsigned long int priceImport,
                          unsigned long int priceSelling);
 // Thong bao: dat | thong bao
 void SystemSetLowStockThreshold(System *system,int systemSet, char *systemAnnouncement);
