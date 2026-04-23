@@ -11,4 +11,8 @@ typedef struct {
 void SystemAddNewProduct(int ProducID, char *productName, char *productCategory,
                          int quantity, unsigned long int priceImport,
                          unsigned long int priceSelling);
+void ystemCheckStockLevels(System *system);
+void systemDeleteProduct(System *system, int productID);
+void systemUpdateInventoryStock(System *system, int productID, int quantityChange, int type);
+void systemViewInventory(System *system); 
 #endif

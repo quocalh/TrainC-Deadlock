@@ -16,7 +16,7 @@ typedef struct {
 
 void fetchTime(systemTime *system_time);
 
-int systemTime_getCurrentYear(systemTime *system_time);
+int systemTime_getCurrentYear(systemTime *system_time); 
 int systemTime_getCurrentMonth(systemTime *system_time);
 int systemTime_getCurrentDate(systemTime *system_time);
 
