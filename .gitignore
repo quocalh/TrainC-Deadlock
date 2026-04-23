@@ -1,2 +1,8 @@
+# ignore all .exe files in the repo
 *.exe
+
+#ignore the .vscode file
 .vscode/
+
+# testing.c in root directory
+/testing.c
