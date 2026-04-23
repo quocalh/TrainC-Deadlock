@@ -11,8 +11,13 @@ typedef struct {
 void SystemAddNewProduct(int ProducID, char *productName, char *productCategory,
                          int quantity, unsigned long int priceImport,
                          unsigned long int priceSelling);
-void ystemCheckStockLevels(System *system);
-void systemDeleteProduct(System *system, int productID);
-void systemUpdateInventoryStock(System *system, int productID, int quantityChange, int type);
-void systemViewInventory(System *system); 
+// Thong bao: dat | thong bao
+void SystemSetLowStockThreshold(System *system,int systemSet, char *systemAnnouncement);
+// Phan loai: Loc san pham
+void SystemDisplayProduct(System *system);
+//Sap xep: 
+void SystemViewSortProduct(System *system);
+//Xuat:
+void SystemExportStock(System *system);
+void SystemExportTransaction(System *system);
 #endif
