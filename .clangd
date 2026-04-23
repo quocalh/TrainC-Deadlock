@@ -1,0 +1,18 @@
+# Global flags for all files
+CompileFlags:
+  Compiler: C:/msys64/ucrt64/bin/gcc.exe
+  Add: [-Wall, -Wextra, -Iinclude, -IC:/msys64/ucrt64/include]
+
+---
+# C++ specific
+If:
+  PathMatch: [.*\.cpp, .*\.hpp, .*\.cc]
+CompileFlags:
+  Add: [-std=c++20, -xc++]
+
+---
+# C specific
+If:
+  PathMatch: [.*\.c, .*\.h]
+CompileFlags:
+  Add: [-std=c11, -xc]
