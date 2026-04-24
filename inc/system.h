@@ -31,3 +31,16 @@ void SystemViewSortProduct(System *system);
 void SystemExportStock(System *system);
 void SystemExportTransaction(System *system);
 #endif
+//tim kiem san pham:ma SKU / ten san pham (ko phan biet HOA thuong)         
+void SystemSearchProduct(int ProducID, char *productName, unsigned long int priceSelling);
+//canh bao hang sap het
+void SystemWarningItemisrunninglow (int ProducID, char *productName, char *productCategory, 
+  int quantity);
+//luu file va doc file
+void SystemReadAndSaveFile (int ProducID, char *productName, char *productCategory,
+                         int quantity, unsigned long int priceImport,
+                         unsigned long int priceSelling) ;                         
+//lich su nhap va xuat cua mot san pham
+void SystemImportandExportHistory ( int ProducID, char *productName, char *productCategory,
+                         int quantity, unsigned long int priceImport);
+#endif
