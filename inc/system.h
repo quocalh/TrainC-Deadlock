@@ -7,43 +7,61 @@ typedef struct {
   productArray product_array;
 } System;
 
-// Them san pham : ma | ten | loai | so luong | gia nhap | gia ban
+// 1:
 void SystemAddNewProduct(System *system, int productID, char *productName,
                          char *productCategory, int quantity,
                          unsigned long int priceImport,
                          unsigned long int priceSelling);
 
-void SystemCheckStockLevels(System *system);
+// 2:
+void SystemModifyProduct(System *system);
+
+// 3:
 void SystemDeleteProduct(System *system, int productID);
-void SystemUpdateInventoryStock(System *system, int productID,
-                                int quantityChange, int type);
-void SystemViewInventory(System *system);
 
-// Thong bao: dat | thong bao
+// 4:
+void SystemUpdateStock(System *system, int productID, int quantityChange,
+                       int type);
 
+// 5:
+void SystemDisplayProduct(System *system);
+
+// 6:
+void SystemSearchProductByID(System *system, int ProductID, char *productName,
+                             unsigned long int priceSelling);
+void SystemSearchProductByName(System *system, int ProductID, char *productName,
+                               unsigned long int priceSelling);
+
+// 7:
+void SystemLowStockWarning(System *system, int ProductID, char *productName,
+                           char *productCategory, int quantity);
+// 8:
+void SystemReadFile(System *system, int ProductID, char *productName,
+                    char *productCategory, int quantity,
+                    unsigned long int priceImport,
+                    unsigned long int priceSelling);
+void SystemWriteFile(System *system, int ProductID, char *productName,
+                     char *productCategory, int quantity,
+                     unsigned long int priceImport,
+                     unsigned long int priceSelling);
+
+// 9:
+void SystemImportandExportHistory(System *system, int ProductID,
+                                  char *productName, char *productCategory,
+                                  int quantity, unsigned long int priceImport);
+// 10:
+void SystemCalculateProfit(System *system);
+
+// 11:
 void SystemSetLowStockThreshold(System *system, int systemSet,
                                 char *systemAnnouncement);
-// Phan loai: Loc san pham
-void SystemDisplayProduct(System *system);
-// Sap xep:
-void SystemViewSortProduct(System *system);
-// Xuat:
-void SystemExportStock(System *system);
-void SystemExportTransaction(System *system);
+// 12:
+void SystemDisplayProductByCategories(System *system);
 
-// tim kiem san pham:ma SKU / ten san pham (ko phan biet HOA thuong)
-void SystemSearchProduct(int ProducID, char *productName,
-                         unsigned long int priceSelling);
-// canh bao hang sap het
-void SystemWarningItemisrunninglow(int ProducID, char *productName,
-                                   char *productCategory, int quantity);
-// luu file va doc file
-void SystemReadAndSaveFile(int ProducID, char *productName,
-                           char *productCategory, int quantity,
-                           unsigned long int priceImport,
-                           unsigned long int priceSelling);
-// lich su nhap va xuat cua mot san pham
-void SystemImportandExportHistory(int ProducID, char *productName,
-                                  char *productCategory, int quantity,
-                                  unsigned long int priceImport);
+// 13:
+void SystemDisplaySortProduct(System *system);
+
+// 14:
+void SystemLogStock(System *system);
+void SystemLogHistoryTransaction(System *system);
 #endif
