@@ -47,7 +47,7 @@ void AddProduct(productArray *product_array, unsigned int ProductID,
   }
 
   if (product_array->count >= product_array->currentCapacity) {
-    unsigned int newCapacity = product_array->currentCapacity + INCREMENT;
+    unsigned int newCapacity = product_array->currentCapacity * 2;
 
     if (newCapacity > product_array->capacity) {
       newCapacity = product_array->capacity;
