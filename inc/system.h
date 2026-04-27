@@ -21,7 +21,7 @@ void SystemDeleteProduct(System *system, int productID);
 
 // 4:
 void SystemUpdateStock(System *system, int productID, int quantityChange,
-                       int type)                  
+                       int type);                  
 // 5:
 void SystemDisplayProduct(System *system);
 
