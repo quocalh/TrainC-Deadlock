@@ -21,6 +21,6 @@ void AddProduct(productArray *product_array, unsigned int ProductID,
                 unsigned int lowStockThreshold);
 
 void Init(productArray *product_array, unsigned int maxCapacity);
-void Delete(productArray *product_array);
+void Free(productArray *product_array);
 
 #endif
