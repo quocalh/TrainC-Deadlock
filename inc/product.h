@@ -4,7 +4,7 @@
 #include "setting.h"
 
 typedef struct {
-  int ProductID;
+  unsigned int ProductID;
 
   char ProductName[MAX_STRING_LENGTH];
   char Category[MAX_STRING_LENGTH];

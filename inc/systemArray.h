@@ -7,16 +7,20 @@
 #define INCREMENT 10
 
 typedef struct {
-  Product *ptr; // heap
-  int capacity;
-  int count;
+  Product *ptr; // heap [product0, product1, product2, prouct3]
+  unsigned int capacity;
+  unsigned int currentCapacity;
+  unsigned int count;
 } productArray;
 
 void Allocate(productArray *product_array, unsigned int AllocatedSlot);
 
-void AddProduct(productArray *product_array);
+void AddProduct(productArray *product_array, unsigned int ProductID,
+                char *ProductName, char *Category, unsigned int quantity,
+                unsigned long int priceImport, unsigned long int priceSelling,
+                unsigned int lowStockThreshold);
 
-void Init(productArray *product_array);
-void Delete(productArray *product_array);
+void Init(productArray *product_array, unsigned int maxCapacity);
+void Free(productArray *product_array);
 
 #endif
