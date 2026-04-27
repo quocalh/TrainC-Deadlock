@@ -7,6 +7,7 @@ src/systemColoring.c ^
 src/systemFile.c ^
 src/systemInterface.c ^
 src/systemTime.c ^
-src/transaction.c
+src/transaction.c ^
+src/utils.c
 prog
 @echo on
