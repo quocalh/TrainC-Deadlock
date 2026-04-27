@@ -1,4 +1,50 @@
+#include "../inc/system.h"
+#include <stdio.h> 
 
+// 3:
+void SystemDeleteProduct(System *system, int productID) 
+{
+    if (system == NULL) return;
+    productArray *pArray = &(system->product_array);
+    int targetIndex = -1;
+    for (int i = 0; i < pArray->count; i++) 
+    {
+        if (pArray->ptr[i].ProductID == productID && pArray->ptr[i].isDeleted == 0) 
+        {
+            targetIndex = i;
+            break;
+        }
+    }
+    if (targetIndex == -1) 
+    {
+        printf("Khong tim thay san pham ID: %d\n", productID);
+        return;
+    }
+    if (pArray->ptr[targetIndex].quantity != 0) 
+    {
+        printf("Loi: San pham '%s' van con ton kho (%lu). Khong duoc phep xoa!\n", 
+               pArray->ptr[targetIndex].ProductName, 
+               pArray->ptr[targetIndex].quantity);
+        return;
+    }
+    char confirm;
+    printf("Xac nhan xoa '%s' (ID: %d)? (y/n): ", pArray->ptr[targetIndex].ProductName, productID);
+    scanf(" %c", &confirm);
+    if (confirm != 'y' && confirm != 'Y') 
+    {
+        printf("Huy thao tac xoa.\n");
+        return;
+    }
+    printf("CANH BAO: Du lieu se bi danh dau xoa vinh vien. Chac chan? (y/n): ");
+    scanf(" %c", &confirm);
+    if (confirm != 'y' && confirm != 'Y')
+    {
+        printf("Huy thao tac xoa o buoc cuoi.\n");
+        return;
+    }
+    pArray->ptr[targetIndex].isDeleted = 1;
+    printf("Da xoa san pham ID %d thanh cong.\n", productID);
+}
 
 // 4:
 void SystemUpdateStock(System *system, int productID, int quantityChange,
@@ -10,7 +56,6 @@ void SystemUpdateStock(System *system, int productID, int quantityChange,
       if ((*system).product_array.ptr[i].ProductID == productID) 
       {
           found = 1;
-
           if (type == 1)
           {
                 (*system).product_array.ptr[i].quantity += (unsigned long)quantityChange;
@@ -37,7 +82,6 @@ void SystemUpdateStock(System *system, int productID, int quantityChange,
            break; 
       }
   }
-
   if (found == 0) 
   {
       printf("Khong tim thay ID %d trong he thong.\n", productID);
