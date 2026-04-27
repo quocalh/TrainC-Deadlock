@@ -17,11 +17,11 @@ void SystemAddNewProduct(System *system, int productID, char *productName,
 void SystemModifyProduct(System *system);
 
 // 3:
-void SystemDeleteProduct(System *system, int productID);
+void SystemDeleteProduct(System *system, unsigned int productID);
 
 // 4:
-void SystemUpdateStock(System *system, int productID, int quantityChange,
-                       int type);                  
+void SystemUpdateStock(System *system, unsigned int productID,
+                       unsigned int quantityChange, int type);
 // 5:
 void SystemDisplayProduct(System *system);
 
