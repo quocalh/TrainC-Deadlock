@@ -33,8 +33,7 @@ void SystemSearchProductByName(System *system, int ProductID, char *productName,
                                unsigned long int priceSelling);
 
 // 7:
-void SystemLowStockWarning(System *system, int ProductID, char *productName,
-                           char *productCategory, int quantity);
+void SystemLowStockWarning(System *system);
 // 8:
 void SystemReadFile(System *system, int ProductID, char *productName,
                     char *productCategory, int quantity,
