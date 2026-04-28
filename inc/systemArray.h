@@ -13,6 +13,7 @@ typedef struct {
   unsigned int count;
 } productArray;
 
+// legacy ones, deprecated functions
 void Allocate(productArray *product_array, unsigned int AllocatedSlot);
 
 void AddProduct(productArray *product_array, unsigned int ProductID,
@@ -23,4 +24,16 @@ void AddProduct(productArray *product_array, unsigned int ProductID,
 void Init(productArray *product_array, unsigned int maxCapacity);
 void Free(productArray *product_array);
 
+// New one, recommended
+productArray productArrayInit(int maxCapacity);
+
+int productArrayAllocate(productArray *product_array, unsigned int NeededSlot);
+
+int productArrayAddProduct(productArray *product_array, unsigned int ProductID,
+                           char *ProductName, char *Category,
+                           unsigned int quantity, unsigned long int priceImport,
+                           unsigned long int priceSelling,
+                           unsigned int lowStockThreshold);
+
+void productArrayFree(productArray *product_array);
 #endif

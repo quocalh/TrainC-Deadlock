@@ -1,6 +1,7 @@
 @echo off
 gcc testing.c -o prog -I inc ^
 src/product.c ^
+src/productArray.c ^
 src/system.c ^
 src/systemArray.c ^
 src/systemColoring.c ^
