@@ -70,6 +70,7 @@ void TranscationArrayFree(transactionArray *transaction_array) {
   free(transaction_array->ptr);
   printf("TransactionArray: freed\n");
 }
+
 // ------------------------------------------------------------------------
 // testing.c
 // // #include "inc/transaction.h"
