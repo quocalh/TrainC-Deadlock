@@ -18,8 +18,8 @@ void TransactionArrayAddTransaction(transactionArray *transaction_array,
                                     unsigned int productID,
                                     timeStamp timeStamp);
 
-void TransactionArrayAllocate(transactionArray *transaction_array,
-                              unsigned int AllocateSlot);
+int TransactionArrayAllocate(transactionArray *transaction_array,
+                             unsigned int AllocateSlot);
 
 void TranscationArrayFree(transactionArray *transaction_array);
 

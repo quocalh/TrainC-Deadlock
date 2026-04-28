@@ -8,6 +8,7 @@ src/systemFile.c ^
 src/systemInterface.c ^
 src/systemTime.c ^
 src/transaction.c ^
+src/transactionArray.c ^
 src/utils.c
 prog
 @echo on
