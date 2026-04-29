@@ -22,7 +22,7 @@ void SystemDeleteProduct(System *system, unsigned int productID);
 // 4:
 void SystemUpdateStock(System *system, unsigned int productID,
                        unsigned int quantityChange, int type);
-// 5:
+// 5:(Done)
 void SystemDisplayProduct(System *system);
 
 // 6:
