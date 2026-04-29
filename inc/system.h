@@ -13,7 +13,7 @@ void SystemAddNewProduct(System *system, int productID, char *productName,
                          unsigned long int priceImport,
                          unsigned long int priceSelling);
 
-// 2:
+// 2:(done)
 void SystemModifyProduct(System *system);
 
 // 3:

@@ -1,5 +1,50 @@
 #include "../inc/system.h"
 #include <stdio.h>
+//2:
+void SystemModifyProduct(System *system){
+  //choose the product
+  unsigned int ChosenID;
+  printf("Nhap ID vao: ");
+  scanf("%d",  &ChosenID);
+  if (ChosenID >= system->product_array.count){
+    printf("ID khong tim thay\n");
+    return;
+  }
+  Product *ModifyingProduct = &system->product_array.ptr[ChosenID];
+  //Change Name: 
+  char input[100];
+  printf("Ten moi (Ten cu: %s): ", system->product_array.ptr[ChosenID].ProductName);
+  scanf("%s", input);
+  if (!(input[0] == '*' && input[1] == '\0')){
+    strcpy(ModifyingProduct->ProductName, input);
+  }
+  //Change Category
+  printf("Loai moi (Loai cu: %s): ", system->product_array.ptr[ChosenID].Category);
+  scanf("%s", input);
+ if (!(input[0] == '*' && input[1] == '\0')){
+  strcpy(ModifyingProduct->Category, input);
+  }
+  //Change PriceImport
+  printf("Gia nhap moi (Gia nhap cu: %d): ", system->product_array.ptr[ChosenID].priceImport);
+  scanf("%s", input);
+ if (!(input[0] == '*' && input[1] == '\0')){
+  ModifyingProduct->priceImport = atoi(input);
+  }
+  //Change PriceSelling
+  printf("Gia ban moi (Gia ban cu: %d): ", system->product_array.ptr[ChosenID].priceSelling);
+  scanf("%s", input);
+ if (!(input[0] == '*' && input[1] == '\0')){
+  ModifyingProduct->priceSelling = atoi(input);
+ } 
+ //Change LowStockThreHold
+  printf("Nguong canh bao moi (Nguong canh bao cu: %d): ", system->product_array.ptr[ChosenID].lowStockThreshold);
+  scanf("%s", input);
+ if (!(input[0] == '*' && input[1] == '\0')){
+  ModifyingProduct->lowStockThreshold = atoi(input);
+ }
+ //Print New Change
+ printf("ID: %d | Ten: %s | Loai: %s | Gia nhap: %d | Gia ban: %d | Nguong canh bao: %d\n", system->product_array.ptr[ChosenID].ProductID, system->product_array.ptr[ChosenID].ProductName, system->product_array.ptr[ChosenID].Category, system->product_array.ptr[ChosenID].priceImport, system->product_array.ptr[ChosenID].priceSelling, system->product_array.ptr[ChosenID].lowStockThreshold);
+}
 
 // 3:
 void SystemDeleteProduct(System *system, unsigned int productID) {
