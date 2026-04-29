@@ -1,5 +1,6 @@
 #include "../inc/system.h"
 #include <stdio.h>
+<<<<<<< HEAD
 #include <stdlib.h>
 #include <string.h>
 
@@ -60,6 +61,8 @@ void SystemModifyProduct(System *system) {
          system->product_array.ptr[ChosenID].priceSelling,
          system->product_array.ptr[ChosenID].lowStockThreshold);
 }
+=======
+>>>>>>> 1ba36bb (nothing2)
 
 // 3:
 void SystemDeleteProduct(System *system, unsigned int productID) {
@@ -137,6 +140,7 @@ void SystemUpdateStock(System *system, unsigned int productID,
     printf("Khong tim thay ID %d trong he thong.\n", productID);
   }
 }
+<<<<<<< HEAD
 
 // 5
 // Show Display Products
@@ -152,3 +156,21 @@ void SystemDisplayProduct(System *system) {
         product_Array->ptr[i].lowStockThreshold);
   }
 }
+=======
+//7:
+void SystemLowStockWarning(System *system) {
+    printf("%-5s | %-20s | %-5s | %-10s | %-10s\n", "ID", "Ten San Pham", "Ton Kho", "Dinh Muc", "Trang Thai");
+    for (int i = 0; i < system->product_array.count; i++) {
+        Product *p = &(system->product_array.ptr[i]);
+        if (p->isDeleted) continue;
+        printf("%-5d | %-20s | %-5lu | %-10u | ", p->ProductID, p->ProductName, p->quantity, p->lowStockThreshold);
+        if (p->quantity < p->lowStockThreshold) {
+            printf("red\n");
+        } else if (p->quantity == p->lowStockThreshold) {
+            printf("yellow\n");
+        } else {
+            printf("green\n");
+        }
+    } printf("\n");
+}
+>>>>>>> 1ba36bb (nothing2)
