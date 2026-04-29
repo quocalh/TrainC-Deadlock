@@ -156,7 +156,6 @@ void SystemLowStockWarning(System *system) {
     printf("%-5s | %-20s | %-5s | %-10s | %-10s\n", "ID", "Ten San Pham", "Ton Kho", "Dinh Muc", "Trang Thai");
     for (int i = 0; i < system->product_array.count; i++) {
         Product *p = &(system->product_array.ptr[i]);
-        if (p->isDeleted) continue;
         printf("%-5d | %-20s | %-5lu | %-10u | ", p->ProductID, p->ProductName, p->quantity, p->lowStockThreshold);
         if (p->quantity < p->lowStockThreshold) {
             printf("red\n");
