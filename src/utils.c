@@ -24,7 +24,7 @@ void swap_stack(void *a, void *b, size_t size) {
 
   // im not sure whether should i free the stack though
   // the fooking document said no though
-  free(tmp);
+  // free(tmp);
 }
 
 uint swap_heap(void *a, void *b, size_t size) {
