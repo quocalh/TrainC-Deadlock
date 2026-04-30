@@ -3,4 +3,6 @@
 
 #define MAX_STRING_LENGTH 50
 
+typedef unsigned int uint;
+
 #endif

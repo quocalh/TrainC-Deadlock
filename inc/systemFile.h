@@ -6,6 +6,10 @@
 
 typedef struct {
   FILE file_ptr;
+  // e.g: max item represented in the file: 10000
+  // -> Range = 10_000, if the currentRange, perform an FIFO delete
+  unsigned int Range;
+  unsigned int currentRange;
 } systemFile;
 
 void systemFileLoadProductArray(productArray *product_array, char *fileName);
