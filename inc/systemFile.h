@@ -4,7 +4,8 @@
 #include "systemArray.h"
 #include <stdio.h>
 
-typedef struct {
+typedef struct 
+{
   FILE *file_ptr;
   // e.g: max item represented in the file: 10000
   // -> Range = 10_000, if the currentRange, perform an FIFO delete
