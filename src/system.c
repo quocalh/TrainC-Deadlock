@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 // 2:
 void SystemModifyProduct(System *system) {
   // choose the product
@@ -136,13 +137,18 @@ void SystemUpdateStock(System *system, unsigned int productID,
     printf("Khong tim thay ID %d trong he thong.\n", productID);
   }
 }
-//5
-//Show Display Products
-void SystemDisplayProduct(System *system){
+
+// 5
+// Show Display Products
+void SystemDisplayProduct(System *system) {
   productArray *product_Array = &system->product_array;
-  for(unsigned int i = 0; i < system->product_array.count; i++){
-    printf("ID: %d | Name: %s | Category: %s | PriceImport: %d | PriceSelling: %d | LowStockThreHold: %d\n", 
-      product_Array->ptr[i].ProductID, product_Array->ptr[i].ProductName, product_Array->ptr[i].Category, 
-      product_Array->ptr[i].priceImport, product_Array->ptr[i].priceSelling, product_Array->ptr[i].lowStockThreshold);
+  for (unsigned int i = 0; i < system->product_array.count; i++) {
+    printf(
+        "ID: %d | Name: %s | Category: %s | PriceImport: %ld | PriceSelling: "
+        "%ld | LowStockThreHold: %d\n",
+        product_Array->ptr[i].ProductID, product_Array->ptr[i].ProductName,
+        product_Array->ptr[i].Category, product_Array->ptr[i].priceImport,
+        product_Array->ptr[i].priceSelling,
+        product_Array->ptr[i].lowStockThreshold);
   }
 }
