@@ -52,8 +52,8 @@ void SystemImportandExportHistory(System *system, int ProductID,
 void SystemCalculateProfit(System *system);
 
 // 11:
-void SystemSetLowStockThreshold(System *system, int systemSet,
-                                char *systemAnnouncement);
+void SystemSetLowStockThreshold(System *system);
+
 // 12:
 void SystemDisplayProductByCategories(System *system);
 
