@@ -1,4 +1,5 @@
 #include "../inc/transactionArray.h"
+#include "../inc/setting.h"
 #include "../inc/utils.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,8 +26,8 @@ transactionArray TransactionArrayInit(unsigned int maxCapacity) {
 }
 
 void TransactionArrayAddTransaction(transactionArray *transaction_array,
-                                    unsigned int productID,
-                                    timeStamp timeStamp) {
+                                    unsigned int productID, timeStamp timeStamp,
+                                    uint quantity) {
   int success =
       TransactionArrayAllocate(transaction_array, transaction_array->count + 1);
   if (!success) {
@@ -34,6 +35,7 @@ void TransactionArrayAddTransaction(transactionArray *transaction_array,
   }
   transaction_array->ptr[transaction_array->count].productID = productID;
   transaction_array->ptr[transaction_array->count].time_stamp = timeStamp;
+  transaction_array->ptr[transaction_array->count].quantity = quantity;
   transaction_array->count++;
 }
 

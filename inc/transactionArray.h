@@ -1,6 +1,6 @@
 #ifndef TRANSACTION_ARRAY_H
 #define TRANSACTION_ARRAY_H
-
+#include "../inc/setting.h"
 #include "systemTime.h"
 #include "transaction.h"
 
@@ -15,8 +15,8 @@ typedef struct {
 transactionArray TransactionArrayInit(unsigned int maxCapacity);
 
 void TransactionArrayAddTransaction(transactionArray *transaction_array,
-                                    unsigned int productID,
-                                    timeStamp timeStamp);
+                                    unsigned int productID, timeStamp timeStamp,
+                                    uint quantity);
 
 int TransactionArrayAllocate(transactionArray *transaction_array,
                              unsigned int AllocateSlot);
