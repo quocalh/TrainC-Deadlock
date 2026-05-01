@@ -1,6 +1,5 @@
 #include "../inc/system.h"
 #include <stdio.h>
-<<<<<<< HEAD
 #include <stdlib.h>
 #include <string.h>
 
@@ -61,8 +60,6 @@ void SystemModifyProduct(System *system) {
          system->product_array.ptr[ChosenID].priceSelling,
          system->product_array.ptr[ChosenID].lowStockThreshold);
 }
-=======
->>>>>>> 1ba36bb (nothing2)
 
 // 3:
 void SystemDeleteProduct(System *system, unsigned int productID) {
@@ -140,8 +137,6 @@ void SystemUpdateStock(System *system, unsigned int productID,
     printf("Khong tim thay ID %d trong he thong.\n", productID);
   }
 }
-<<<<<<< HEAD
-
 // 5
 // Show Display Products
 void SystemDisplayProduct(System *system) {
@@ -156,7 +151,6 @@ void SystemDisplayProduct(System *system) {
         product_Array->ptr[i].lowStockThreshold);
   }
 }
-=======
 //7:
 void SystemLowStockWarning(System *system) {
     printf("%-5s | %-20s | %-5s | %-10s | %-10s\n", "ID", "Ten San Pham", "Ton Kho", "Dinh Muc", "Trang Thai");
@@ -173,4 +167,32 @@ void SystemLowStockWarning(System *system) {
         }
     } printf("\n");
 }
->>>>>>> 1ba36bb (nothing2)
+//11:
+void SystemSetLowStockThreshold(System *system) {
+    unsigned int targetID;
+    printf("Nhap ID san pham ban muon thay doi nguong canh bao: ");
+    if (scanf("%u", &targetID) != 1) {
+        printf("ID khong hop le\n");
+        while (getchar() != '\n');
+        return;}
+    productArray *pArray = &(system->product_array);
+    int targetIndex = -1;
+    for (int i = 0; i < pArray->count; i++) {
+        if (pArray->ptr[i].ProductID == targetID && pArray->ptr[i].isDeleted == 0) {
+            targetIndex = i;
+            break;}}
+    if (targetIndex == -1) {
+        printf("Khong tim thay san pham hoac san pham da bi xoa.\n");
+        return;}
+    printf("San pham tim thay: %s\n", pArray->ptr[targetIndex].ProductName);
+    printf("Nguong canh bao hien tai: %u\n", pArray->ptr[targetIndex].lowStockThreshold);
+    unsigned int newThreshold;
+    printf("Nhap nguong canh bao moi: ");
+    if (scanf("%u", &newThreshold) != 1) {
+        printf("Gia tri nguong khong hop le\n");
+        while (getchar() != '\n');//này để xóa ký tự còn
+        return;}
+    pArray->ptr[targetIndex].lowStockThreshold = newThreshold;
+    printf("Nguong canh bao cho san pham ten '%s' thanh %u \n", 
+           pArray->ptr[targetIndex].ProductName, newThreshold);
+}
