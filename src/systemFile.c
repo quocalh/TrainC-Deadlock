@@ -1,6 +1,7 @@
 #include "../inc/systemFile.h"
 #include "../inc/product.h"
 #include <stdio.h>
+#include "../inc/setting.h"
 
 // read function
 void systemFileLoadProductArray(systemFile *system_file,
@@ -32,3 +33,35 @@ void systemFileLoadProductArray(systemFile *system_file,
            product.lowStockThreshold, product.isDeleted);
   }
 }
+// save function
+void systemFileSaveProductArray(systemFile *system_file, productArray *productArray, uint n) 
+{
+    // Mở file bằng biến local file_ptr
+    FILE *file_ptr = fopen(system_file->fileName, "w");
+    
+    if (file_ptr == NULL) 
+    {
+        printf("cannot open the given file: %s\n", system_file->fileName);
+        return;
+    }
+
+    for (uint i = 0; i < n; i++) 
+    {
+        Product product = productArray->ptr[i]; 
+        // SỬA TẠI ĐÂY: Dùng file_ptr thay vì system_file->file_ptr
+        fprintf(file_ptr, "%d \"%s\" \"%s\" %u %lu %lu %u %d\n",
+                product.ProductID,
+                product.ProductName,
+                product.Category,
+                product.quantity,
+                product.priceImport,
+                product.priceSelling,
+                product.lowStockThreshold,
+                product.isDeleted);
+    }
+
+    system_file->currentRange = n;
+    // Đóng biến local đã mở
+    fclose(file_ptr);
+}
+

@@ -11,14 +11,13 @@ typedef struct {
   unsigned int currentRange;
   char fileName[MAX_FILE_STRING_LENGTH];
 } systemFile;
-
 void systemFileInit(systemFile *system_file, unsigned int range);
 
 void systemFileLoadProductArray(systemFile *system_file,
                                 productArray *product_array);
 
 void systemFileSaveProductArray(systemFile *system_file,
-                                productArray *productArray);
+                                productArray *productArray, uint n);
 
 void systemFileMarkDeleteProduct(systemFile *system_file, uint productID,
                                  Product *product);

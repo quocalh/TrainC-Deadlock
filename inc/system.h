@@ -17,10 +17,10 @@ void SystemAddNewProduct(System *system, int productID, char *productName,
 // 2:(done)
 void SystemModifyProduct(System *system);
 
-// 3:
+// 3:(done)
 void SystemDeleteProduct(System *system, unsigned int productID);
 
-// 4:
+// 4:(done)
 void SystemUpdateStock(System *system, unsigned int productID,
                        unsigned int quantityChange, int type);
 // 5:(Done)
