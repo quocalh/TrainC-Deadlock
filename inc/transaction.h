@@ -7,6 +7,7 @@ typedef struct {
   unsigned int productID;
   unsigned int quantity;
   timeStamp time_stamp;
+  unsigned short int isForSelling;
 } Transaction;
 
 #endif
