@@ -2,9 +2,10 @@
 #define SYSTEM_H
 
 #include "systemArray.h"
-
+#include "transactionArray.h"
 typedef struct {
   productArray product_array;
+  transactionArray transaction_array;
 } System;
 
 // 1:
