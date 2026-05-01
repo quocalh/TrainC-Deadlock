@@ -27,7 +27,8 @@ transactionArray TransactionArrayInit(unsigned int maxCapacity) {
 
 void TransactionArrayAddTransaction(transactionArray *transaction_array,
                                     unsigned int productID, timeStamp timeStamp,
-                                    uint quantity) {
+                                    uint quantity,
+                                    unsigned short int isForSelling) {
   int success =
       TransactionArrayAllocate(transaction_array, transaction_array->count + 1);
   if (!success) {
@@ -36,6 +37,8 @@ void TransactionArrayAddTransaction(transactionArray *transaction_array,
   transaction_array->ptr[transaction_array->count].productID = productID;
   transaction_array->ptr[transaction_array->count].time_stamp = timeStamp;
   transaction_array->ptr[transaction_array->count].quantity = quantity;
+  transaction_array->ptr[transaction_array->count].isForSelling = isForSelling;
+
   transaction_array->count++;
 }
 

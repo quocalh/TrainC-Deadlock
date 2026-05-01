@@ -16,7 +16,8 @@ transactionArray TransactionArrayInit(unsigned int maxCapacity);
 
 void TransactionArrayAddTransaction(transactionArray *transaction_array,
                                     unsigned int productID, timeStamp timeStamp,
-                                    uint quantity);
+                                    uint quantity,
+                                    unsigned short int isForSelling);
 
 int TransactionArrayAllocate(transactionArray *transaction_array,
                              unsigned int AllocateSlot);
