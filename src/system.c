@@ -153,19 +153,38 @@ void SystemDisplayProduct(System *system) {
 }
 //7:
 void SystemLowStockWarning(System *system) {
+    int options;
+    printf("Chon che do hien thi:\n");
+    printf("0: Chi hien thi canh bao (Red/Yellow)\n");
+    printf("1: Hien thi tat ca (bao gom ca Green)\n");
+    printf("Lua chon cua ban: ");
+    scanf("%d", &options);
+    while (getchar() != '\n')
+    if (options != 1 && options != 0) {
+        printf("Lua chon khong hop le. Vui long nhap 0 hoac 1.\n");
+        while (getchar() != '\n');
+        return;
+    }
+    unsigned int lowStockCount = 0;
     printf("%-5s | %-20s | %-5s | %-10s | %-10s\n", "ID", "Ten San Pham", "Ton Kho", "Dinh Muc", "Trang Thai");
     for (int i = 0; i < system->product_array.count; i++) {
         Product *p = &(system->product_array.ptr[i]);
         if (p->isDeleted) continue;
-        printf("%-5d | %-20s | %-5lu | %-10u | ", p->ProductID, p->ProductName, p->quantity, p->lowStockThreshold);
         if (p->quantity < p->lowStockThreshold) {
+            printf("%-5d | %-20s | %-5lu | %-10u | ", p->ProductID, p->ProductName, p->quantity, p->lowStockThreshold);
             printf("red\n");
+            lowStockCount++;
         } else if (p->quantity == p->lowStockThreshold) {
+            printf("%-5d | %-20s | %-5lu | %-10u | ", p->ProductID, p->ProductName, p->quantity, p->lowStockThreshold);
             printf("yellow\n");
-        } else {
+            lowStockCount++;
+        } else if (options == 1) {
+            printf("%-5d | %-20s | %-5lu | %-10u | ", p->ProductID, p->ProductName, p->quantity, p->lowStockThreshold);
             printf("green\n");
         }
-    } printf("\n");
+    }
+    printf("Tong so san pham sap het hang: %u\n", lowStockCount);
+    printf("\n");
 }
 //11:
 void SystemSetLowStockThreshold(System *system) {
@@ -190,7 +209,7 @@ void SystemSetLowStockThreshold(System *system) {
     printf("Nhap nguong canh bao moi: ");
     if (scanf("%u", &newThreshold) != 1) {
         printf("Gia tri nguong khong hop le\n");
-        while (getchar() != '\n');//này để xóa ký tự còn
+        while (getchar() != '\n');//này để xóa ký tự còn lại trong buffer
         return;}
     pArray->ptr[targetIndex].lowStockThreshold = newThreshold;
     printf("Nguong canh bao cho san pham ten '%s' thanh %u \n", 
