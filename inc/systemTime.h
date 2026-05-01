@@ -21,14 +21,7 @@ typedef struct {
 void fetchTime(systemTime *system_time);
 void saveTick(systemTime *system_time, timeStamp *time_stamp);
 
-// int systemTime_getCurrentYear(systemTime *system_time, timeStamp
-// *time_stamp); int systemTime_getCurrentMonth(systemTime *system_time,
-// timeStamp *time_stamp); int systemTime_getCurrentDate(systemTime
-// *system_time, timeStamp *time_stamp);
-
-// int systemTime_getCurrentHour(systemTime *system_time, timeStamp
-// *time_stamp); int systemTime_getCurrentMinute(systemTime *system_time,
-// timeStamp *time_stamp); int systemTime_getCurrentSecond(systemTime
-// *system_time, timeStamp *time_stamp);
+void SystemTimeFetchTime(systemTime *system_time);
+void SystemTimeSaveTick(systemTime *system_time, timeStamp *time_stamp);
 
 #endif
