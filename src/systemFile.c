@@ -36,7 +36,6 @@ void systemFileLoadProductArray(systemFile *system_file,
 // save function
 void systemFileSaveProductArray(systemFile *system_file, productArray *productArray, uint n) 
 {
-    // Mở file bằng biến local file_ptr
     FILE *file_ptr = fopen(system_file->fileName, "w");
     
     if (file_ptr == NULL) 
@@ -48,7 +47,6 @@ void systemFileSaveProductArray(systemFile *system_file, productArray *productAr
     for (uint i = 0; i < n; i++) 
     {
         Product product = productArray->ptr[i]; 
-        // SỬA TẠI ĐÂY: Dùng file_ptr thay vì system_file->file_ptr
         fprintf(file_ptr, "%d \"%s\" \"%s\" %u %lu %lu %u %d\n",
                 product.ProductID,
                 product.ProductName,
@@ -61,7 +59,6 @@ void systemFileSaveProductArray(systemFile *system_file, productArray *productAr
     }
 
     system_file->currentRange = n;
-    // Đóng biến local đã mở
     fclose(file_ptr);
 }
 
