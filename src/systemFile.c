@@ -22,10 +22,10 @@ void systemFileLoadProductArray(systemFile *system_file,
                 &product.quantity, &product.priceImport, &product.priceSelling,
                 &product.lowStockThreshold, &product.isDeleted) == 8) {
 
-    productArrayAddProduct(
-        product_array, product.ProductID, product.ProductName, product.Category,
-        product.quantity, product.priceImport, product.priceSelling,
-        product.lowStockThreshold, product.isDeleted);
+    productArrayAddProduct(product_array, product.ProductName, product.Category,
+                           product.quantity, product.priceImport,
+                           product.priceSelling, product.lowStockThreshold,
+                           product.isDeleted);
 
     // printf("%-5d %-8ld %-12ld %-13ld %-18s %-20s %-10d %-8d\n",
     //        product.ProductID, product.quantity, product.priceImport,
