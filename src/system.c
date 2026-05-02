@@ -230,7 +230,6 @@ void SystemSetLowStockThreshold(System *system) {
   printf("Nguong canh bao cho san pham ten '%s' thanh %u \n",
          pArray->ptr[targetIndex].ProductName, newThreshold);
 }
-
 // 13
 int SystemDisplaySortedProductByAlphabeticOrder(System *system) {
   // uint is_reversed = 0;
