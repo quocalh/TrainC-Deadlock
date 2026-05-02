@@ -43,9 +43,9 @@ int productArrayAllocate(productArray *product_array, unsigned int NeededSlot) {
   return 1;
 }
 
-int productArrayAddProduct(productArray *product_array, unsigned int ProductID,
-                           char *ProductName, char *Category,
-                           unsigned int quantity, unsigned long int priceImport,
+int productArrayAddProduct(productArray *product_array, char *ProductName,
+                           char *Category, unsigned int quantity,
+                           unsigned long int priceImport,
                            unsigned long int priceSelling,
                            unsigned int lowStockThreshold,
                            unsigned int isDeleted) {
@@ -56,7 +56,9 @@ int productArrayAddProduct(productArray *product_array, unsigned int ProductID,
 
   Product *product_slot = &product_array->ptr[product_array->count];
 
-  product_slot->ProductID = ProductID;
+  product_array->count++;
+
+  product_slot->ProductID = product_array->count;
   strcpy(product_slot->ProductName, ProductName);
   strcpy(product_slot->Category, Category);
   product_slot->quantity = quantity;
@@ -64,8 +66,6 @@ int productArrayAddProduct(productArray *product_array, unsigned int ProductID,
   product_slot->priceSelling = priceSelling;
   product_slot->lowStockThreshold = lowStockThreshold;
   product_slot->isDeleted = isDeleted;
-
-  product_array->count++;
 
   return 1;
 }

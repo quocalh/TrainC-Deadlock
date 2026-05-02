@@ -1,4 +1,5 @@
 #include "../inc/system.h"
+#include "../inc/utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -228,4 +229,37 @@ void SystemSetLowStockThreshold(System *system) {
   pArray->ptr[targetIndex].lowStockThreshold = newThreshold;
   printf("Nguong canh bao cho san pham ten '%s' thanh %u \n",
          pArray->ptr[targetIndex].ProductName, newThreshold);
+}
+
+// 13
+int SystemDisplaySortedProductByAlphabeticOrder(System *system) {
+  // uint is_reversed = 0;
+  uint count = system->product_array.count;
+  unsigned int *ptr =
+      malloc(sizeof(unsigned int) * system->product_array.count);
+
+  if (ptr == NULL) {
+    printf("Failed to allocate slots\n");
+    return 0;
+  }
+
+  for (uint i = 0; i < count; i++) {
+    ptr[i] = i;
+  }
+
+  for (uint i = 0; i < count; i++) {
+    for (uint j = i + 1; j < count; j++) {
+      char *str1 = system->product_array.ptr[ptr[i]].ProductName;
+      char *str2 = system->product_array.ptr[ptr[j]].ProductName;
+
+      if (strcasecmp(str1, str2) > 0) {
+        swap_heap(&ptr[i], &ptr[j], sizeof(unsigned int));
+      }
+    }
+  }
+  for (uint i = 0; i < system->product_array.count; i++) {
+    char *bijection_string = system->product_array.ptr[ptr[i]].ProductName;
+    printf("%s\n", bijection_string);
+  }
+  return 1;
 }

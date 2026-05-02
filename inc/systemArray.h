@@ -29,9 +29,9 @@ productArray productArrayInit(int maxCapacity);
 
 int productArrayAllocate(productArray *product_array, unsigned int NeededSlot);
 
-int productArrayAddProduct(productArray *product_array, unsigned int ProductID,
-                           char *ProductName, char *Category,
-                           unsigned int quantity, unsigned long int priceImport,
+int productArrayAddProduct(productArray *product_array, char *ProductName,
+                           char *Category, unsigned int quantity,
+                           unsigned long int priceImport,
                            unsigned long int priceSelling,
                            unsigned int lowStockThreshold,
                            unsigned int isDeleted);

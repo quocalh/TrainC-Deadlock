@@ -58,9 +58,11 @@ void SystemSetLowStockThreshold(System *system);
 void SystemDisplayProductByCategories(System *system);
 
 // 13:
-void SystemDisplaySortProduct(System *system);
+void SystemDisplaySortedProductByStockAndThresholdGap(System *system);
+int SystemDisplaySortedProductByAlphabeticOrder(System *system);
 
 // 14:
+// -> product.dat -> product.txt ahh funcs
 void SystemLogStock(System *system);
 void SystemLogHistoryTransaction(System *system);
 #endif
