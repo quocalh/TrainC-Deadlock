@@ -151,7 +151,7 @@ void SystemDisplayProduct(System *system) {
         product_Array->ptr[i].lowStockThreshold);
   }
 }
-//7:
+// 7:
 void SystemLowStockWarning(System *system) {
     int options;
     printf("Chon che do hien thi:\n");
@@ -186,7 +186,7 @@ void SystemLowStockWarning(System *system) {
     printf("Tong so san pham sap het hang: %u\n", lowStockCount);
     printf("\n");
 }
-//11:
+// 11:
 void SystemSetLowStockThreshold(System *system) {
     unsigned int targetID;
     printf("Nhap ID san pham ban muon thay doi nguong canh bao: ");

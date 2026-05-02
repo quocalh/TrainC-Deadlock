@@ -6,3 +6,7 @@
 
 # testing.c in root directory
 /testing.c
+
+
+# ignore the product_testing.dat 
+/io/product_testing.dat

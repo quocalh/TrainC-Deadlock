@@ -33,7 +33,8 @@ int productArrayAddProduct(productArray *product_array, unsigned int ProductID,
                            char *ProductName, char *Category,
                            unsigned int quantity, unsigned long int priceImport,
                            unsigned long int priceSelling,
-                           unsigned int lowStockThreshold);
+                           unsigned int lowStockThreshold,
+                           unsigned int isDeleted);
 
 void productArrayFree(productArray *product_array);
 #endif

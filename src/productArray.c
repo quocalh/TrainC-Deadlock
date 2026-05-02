@@ -47,7 +47,8 @@ int productArrayAddProduct(productArray *product_array, unsigned int ProductID,
                            char *ProductName, char *Category,
                            unsigned int quantity, unsigned long int priceImport,
                            unsigned long int priceSelling,
-                           unsigned int lowStockThreshold) {
+                           unsigned int lowStockThreshold,
+                           unsigned int isDeleted) {
   int success = productArrayAllocate(product_array, product_array->count + 1);
   if (!success) {
     return 0;
@@ -62,6 +63,7 @@ int productArrayAddProduct(productArray *product_array, unsigned int ProductID,
   product_slot->priceImport = priceImport;
   product_slot->priceSelling = priceSelling;
   product_slot->lowStockThreshold = lowStockThreshold;
+  product_slot->isDeleted = isDeleted;
 
   product_array->count++;
 
@@ -69,7 +71,7 @@ int productArrayAddProduct(productArray *product_array, unsigned int ProductID,
 }
 
 void productArrayFree(productArray *product_array) {
-  printf("productArray: freed");
+  printf("productArray: freed\n");
   free(product_array->ptr);
 }
 

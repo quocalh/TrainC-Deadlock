@@ -98,3 +98,52 @@ float QuantitySortingEvaluatingScores(uint quantity, uint threshold) {
   }
   return (quantity - threshold) / (float)threshold;
 }
+
+void *AlphabeticSort(unsigned int l, char str_array[][l], unsigned int count) {
+  // dynamic array heap address return
+  char **ptr = malloc(sizeof(void *) * count);
+
+  if (ptr == NULL) {
+    printf("Failed to allocate slots\n");
+    return NULL;
+  }
+  // if successfully allocated a sufficient heap array, fill it with bijection
+  // address
+  for (uint i = 0; i < count; i++) {
+    ptr[i] = str_array[i];
+  }
+
+  // sorting we will see
+  for (uint i = 0; i < count; i++) {
+    for (uint j = i + 1; j < count; j++) {
+      char *str1 = str_array[i];
+      char *str2 = str_array[j];
+      if (strcasecmp(str1, str2) > 0) {
+        swap_stack(str1, str2, l);
+      }
+    }
+  }
+  printf("---sorted-----\n");
+  for (uint i = 0; i < count; i++) {
+    char *bijection_string = ptr[i];
+    printf("%s\n", bijection_string);
+  }
+
+  return ptr;
+}
+// Use
+// char what_the_hell[][50] = {
+//       "apple",      "Banana",     "APPLE",      "banana",     "Apricot",
+//       "apricot",    "Cherry",     "cherry",     "blueberry",  "BlueBerry",
+//       "grape",      "Grape",      "grapefruit", "Grapefruit", "kiwi",
+//       "KiWi",       "lemon",      "Lemon",      "lime",       "Lime",
+//       "mango",      "Mango",      "melon",      "Melon",      "nectarine",
+//       "Nectarine",  "orange",     "Orange",     "peach",      "Peach",
+//       "pear",       "Pear",       "pineapple",  "PineApple",  "plum",
+//       "Plum",       "raspberry",  "Raspberry",  "strawberry", "Strawberry",
+//       "watermelon", "WaterMelon", "fig",        "Fig",        "date",
+//       "Date",       "papaya",     "Papaya",     "guava",      "Guava"};
+//
+//   unsigned int *output_array = AlphabeticSort(50, what_the_hell, 50);
+//
+//   free(output_array);
