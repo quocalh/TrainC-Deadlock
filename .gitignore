@@ -10,3 +10,6 @@
 
 # ignore the product_testing.dat 
 /io/product_testing.dat
+
+# ignore the transaction_testing.bat
+/io/transaction_testing.dat
