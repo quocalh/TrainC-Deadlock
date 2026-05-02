@@ -48,7 +48,7 @@ void SystemWriteFile(System *system, int ProductID, char *productName,
 void SystemImportandExportHistory(System *system, int ProductID,
                                   char *productName, char *productCategory,
                                   int quantity, unsigned long int priceImport);
-// 10:
+// 10(done):
 void SystemCalculateProfit(System *system);
 
 // 11:

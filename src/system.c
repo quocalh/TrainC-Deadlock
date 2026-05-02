@@ -193,6 +193,26 @@ void SystemLowStockWarning(System *system) {
   printf("Tong so san pham sap het hang: %u\n", lowStockCount);
   printf("\n");
 }
+//10:
+void SystemCalculateProfit(System *system){
+    int sum_profit;
+    sum_profit = 0;
+    for (int i = 0; i < system->transaction_array.count; i++){
+        Transaction *transaction = &system->transaction_array.ptr[i];
+        Product *product = &system->product_array.ptr[transaction->productID];
+        unsigned long int Sell = product->priceSelling;
+        unsigned long int Import = product->priceImport;
+        if (transaction->isForSelling == 1 ){
+          //Caculate profit when selling product
+            sum_profit += (Sell - Import) * (transaction->quantity);
+        }
+        else{
+          //Caculate profit when import product
+            sum_profit -= Import * (transaction->quantity);
+        }
+    }
+    printf("Profit = %d\n", sum_profit);
+}
 // 11:
 void SystemSetLowStockThreshold(System *system) {
   unsigned int targetID;
