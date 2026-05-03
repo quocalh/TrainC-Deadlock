@@ -7,6 +7,38 @@
 #include <stdlib.h>
 #include <string.h>
 
+//1:
+void SystemAddNewPruduct(System *system){
+  unsigned int QuanityofProduct;
+  printf("Enter the Quanity of New Product: ");
+  scanf("%d",&QuanityofProduct);
+  for (int i = 0; i < QuanityofProduct; i++) {
+    char productName[100];
+    printf("Enter the new product name: ");
+    scanf("%s", &productName); 
+    char Category[100];
+    printf("Enter product category: ");
+    scanf("%s",&Category);
+    int quantity;
+    printf("Enter the quantity of products: ");
+     scanf("%d",&quantity);
+     unsigned long int priceImport;
+    printf("Enter entry price: ");
+    scanf("%lu",&priceImport);
+    unsigned long int priceSelling;
+    printf("Enter the selling price:");
+    scanf("%lu",&priceSelling);
+    unsigned int lowStockThreshold;
+    printf("Enter the lowStockThreshold: ");
+    scanf("%d",&lowStockThreshold);
+    printf("Added successfully!\n");
+     productArrayAddProduct(&system->product_array, productName, 
+        Category, quantity, priceImport, 
+        priceSelling, lowStockThreshold, 0);
+  }
+
+}
+
 void SystemInit(System *system) {
   system->product_array = productArrayInit(PRODUCT_ARRAY_MAX_CAPACITY);
   system->transaction_array =
