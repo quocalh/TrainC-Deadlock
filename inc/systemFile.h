@@ -6,7 +6,9 @@
 
 typedef struct {
   char fileName[MAX_FILE_STRING_LENGTH];
+  char fileNameTemp[MAX_FILE_STRING_LENGTH];
 } systemFile;
+
 void systemFileInit(systemFile *system_file, unsigned int range);
 
 void systemFileLoadProductArray(systemFile *system_file,
@@ -17,6 +19,7 @@ void systemFileSaveProductArray(systemFile *system_file,
 
 void systemFileMarkDeleteProduct(systemFile *system_file, Product *product);
 
-void systemFileModifyProduct(systemFile *system_file, uint productID,
-                             Product *product);
+uint systemFileAppendProduct(systemFile *system_file, Product *product);
+
+void systemFileModifyProduct(systemFile *system_file, Product *product);
 #endif

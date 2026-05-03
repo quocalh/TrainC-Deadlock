@@ -2,6 +2,7 @@
 #define SYSTEM_H
 
 #include "systemArray.h"
+#include "systemFile.h"
 #include "systemTime.h"
 #include "transactionArray.h"
 
@@ -10,6 +11,7 @@ typedef struct {
   transactionArray transaction_array;
 
   systemTime system_time;
+  systemFile system_file;
 } System;
 
 void SystemInit(System *system);
