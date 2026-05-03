@@ -1,9 +1,9 @@
 #include "../inc/systemFile.h"
 #include "../inc/product.h"
 #include "../inc/setting.h"
-#include<stdio.h>
-#include<string.h>
-#include<stdbool.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
 
 // read function
 void systemFileLoadProductArray(systemFile *system_file,
@@ -60,43 +60,40 @@ void systemFileSaveProductArray(systemFile *system_file,
   fclose(file_ptr);
 }
 // delete function
-void systemFileMarkDeleteProduct(systemFile *system_file, uint productID, Product *product)
-{
-    char buffer[MAX_LINE];
-    char replace[MAX_LINE];
-    char temp_filename[MAX_FILE_STRING_LENGTH];
-    strcpy(temp_filename, "file_temp.txt");
-    int replace_line = 1;
-    FILE *file_ptr = fopen(system_file->fileName, "r");
-    FILE *temp = fopen(temp_filename,"w");
-    if (file_ptr == NULL || temp == NULL) 
-    {
-        printf("cannot open the given file: %s\n", system_file->fileName);
-        return;
+void systemFileMarkDeleteProduct(systemFile *system_file, Product *product) {
+  char buffer[MAX_FILE_WIDTH];
+  // char replace[MAX_FILE_WIDTH];
+
+  char temp_filename[MAX_FILE_STRING_LENGTH];
+  strcpy(temp_filename, "file_temp.txt");
+  // int replace_line = 1;
+
+  FILE *file_ptr = fopen(system_file->fileName, "r");
+  FILE *temp = fopen(temp_filename, "w");
+  if (file_ptr == NULL || temp == NULL) {
+    printf("cannot open the given file: %s\n", system_file->fileName);
+    return;
+  }
+  bool keep_reading = true;
+
+  fprintf(temp, "%u \"%s\" \"%s\" %lu %lu %lu %u %u\n", product->ProductID,
+          product->ProductName, product->Category, product->quantity,
+          product->priceImport, product->priceSelling,
+          product->lowStockThreshold, product->isDeleted);
+  do {
+    if (fgets(buffer, MAX_FILE_WIDTH, file_ptr) == NULL) {
+      keep_reading = false;
+    } else {
+      uint inFileProductID;
+      sscanf(buffer, "%u", &inFileProductID);
+      if (inFileProductID != product->ProductID) {
+        fputs(buffer, temp);
+      }
     }
-    bool keep_reading = true;
-    fprintf(temp,"%u \"%s\" \"%s\" %lu %lu %lu %u %u\n", product->ProductID, product->ProductName, product->Category, product->quantity, product->priceImport, product->priceSelling,product->lowStockThreshold, product->isDeleted);
-   do 
-    {
-        if (fgets(buffer, MAX_LINE, file_ptr) == NULL) 
-        {
-            keep_reading = false;
-        }
-        else 
-        {
-            uint id_in_file;
-            sscanf(buffer, "%u", &id_in_file);
-            if (id_in_file != productID) 
-            {
-                fputs(buffer, temp);
-            }
-        }
-    } 
-    while (keep_reading);
-    
-    fclose(file_ptr);
-    fclose(temp);
-    remove(system_file->fileName);
-    rename(temp_filename, system_file->fileName);
-    
+  } while (keep_reading);
+
+  fclose(file_ptr);
+  fclose(temp);
+  remove(system_file->fileName);
+  rename(temp_filename, system_file->fileName);
 }

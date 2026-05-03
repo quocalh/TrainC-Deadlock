@@ -15,8 +15,7 @@ void systemFileLoadProductArray(systemFile *system_file,
 void systemFileSaveProductArray(systemFile *system_file,
                                 productArray *productArray);
 
-void systemFileMarkDeleteProduct(systemFile *system_file, uint productID,
-                                 Product *product);
+void systemFileMarkDeleteProduct(systemFile *system_file, Product *product);
 
 void systemFileModifyProduct(systemFile *system_file, uint productID,
                              Product *product);
