@@ -25,7 +25,8 @@ int string_search(char *search, char *str, uint l_s, uint l_str);
 
 void highlighting(char *color, char *keyword, char *str, uint l_s, uint l_str,
                   uint start);
-
+void string_highlighting(char *color, char *keyword, char *str, uint l_s,
+                         uint l_str, uint start, char *return_str);
 // alphabet sorting
 // strcasecmp should do the trick
 

@@ -22,6 +22,6 @@ void TransactionArrayAddTransaction(transactionArray *transaction_array,
 int TransactionArrayAllocate(transactionArray *transaction_array,
                              unsigned int AllocateSlot);
 
-void TranscationArrayFree(transactionArray *transaction_array);
+void TransactionArrayFree(transactionArray *transaction_array);
 
 #endif

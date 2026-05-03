@@ -1,8 +1,22 @@
 #include "../inc/system.h"
+#include "../inc/setting.h"
+#include "../inc/systemColoring.h"
+#include "../inc/transactionArray.h"
 #include "../inc/utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+void SystemInit(System *system) {
+  system->product_array = productArrayInit(PRODUCT_ARRAY_MAX_CAPACITY);
+  system->transaction_array =
+      TransactionArrayInit(TRANSACTION_ARRAY_MAX_CAPACITY);
+}
+
+void SystemExit(System *system) {
+  productArrayFree(&system->product_array);
+  TransactionArrayFree(&system->transaction_array);
+}
 
 // 2:
 void SystemModifyProduct(System *system) {
@@ -104,40 +118,58 @@ void SystemDeleteProduct(System *system, unsigned int productID) {
 }
 
 // 4:
-void SystemUpdateStock(System *system, unsigned int productID,
-                       unsigned int quantityChange, int type) {
-  int found = 0;
-  for (unsigned int i = 0; i < (*system).product_array.count; i++) {
-    if (system->product_array.ptr[i].ProductID == productID) {
-      found = 1;
-      if (type == 1) {
-        (*system).product_array.ptr[i].quantity +=
-            (unsigned long)quantityChange;
-        printf("Da nhap %d vao ID %d.\n", quantityChange, productID);
-      } else if (type == 2) {
-        if ((*system).product_array.ptr[i].quantity >=
-            (unsigned long)quantityChange) {
-          (*system).product_array.ptr[i].quantity -=
-              (unsigned long)quantityChange;
-          printf("Da xuat %d tu ID %d.\n", quantityChange, productID);
-          if ((*system).product_array.ptr[i].quantity <=
-              (*system).product_array.ptr[i].lowStockThreshold) {
-            printf("!!! CANH BAO: San pham '%s' sap het hang (Con lai: %lu)\n",
-                   (*system).product_array.ptr[i].ProductName,
-                   (*system).product_array.ptr[i].quantity);
-          }
-        } else {
-          printf("Khong du hang! Trong kho chi con %lu.\n",
-                 (*system).product_array.ptr[i].quantity);
-        }
-      }
-      break;
-    }
+void SystemUpdateStock(System *system) {
+  uint productID;
+  printf("Nhap vao ID cua san pham: ");
+  scanf("%u", &productID);
+
+  if (productID >= system->product_array.count) {
+    printf("Khong tim thay san pham voi ID %u trong he thong.\n", productID);
+    return;
   }
-  if (found == 0) {
-    printf("Khong tim thay ID %d trong he thong.\n", productID);
+
+  if (system->product_array.ptr[productID].isDeleted == 1) {
+    printf("San pham voi ID %d nay hien khong con ban he thong.\n", productID);
+  }
+
+  SystemTimeFetchTime(&system->system_time);
+  timeStamp time_stamp;
+  SystemTimeSaveTick(&system->system_time, &time_stamp);
+
+  uint isForSelling;
+  char respond;
+  printf("San pham nay la ban (y) hay nhap (n)? (y/n): ");
+  scanf(" %c", &respond);
+
+  if (respond == 'y' || respond == 'Y') {
+    isForSelling = 1;
+  } else if (respond == 'n' || respond == 'N') {
+    isForSelling = 0;
+  } else {
+    printf("Khong hieu\n");
+    return;
+  }
+
+  uint quantity;
+  printf("So luong: ");
+  scanf("%u", &quantity);
+
+  if (isForSelling == 1 &&
+      system->product_array.ptr[productID].quantity < quantity) {
+    printf("Hien khong co du san pham\n");
+    return;
+  }
+
+  TransactionArrayAddTransaction(&system->transaction_array, productID,
+                                 time_stamp, quantity, isForSelling);
+
+  if (isForSelling == 1) {
+    system->product_array.ptr[productID].quantity -= quantity;
+  } else {
+    system->product_array.ptr[productID].quantity += quantity;
   }
 }
+
 // 5
 // Show Display Products
 void SystemDisplayProduct(System *system) {
@@ -150,6 +182,43 @@ void SystemDisplayProduct(System *system) {
         product_Array->ptr[i].Category, product_Array->ptr[i].priceImport,
         product_Array->ptr[i].priceSelling,
         product_Array->ptr[i].lowStockThreshold);
+  }
+}
+// 6
+void SystemSearchProductByName(System *system) {
+  char search_string[MAX_STRING_LENGTH];
+
+  printf("Nhap ten san pham can tim: ");
+  scanf(" %[^\n]", search_string);
+
+  printf("Ket qua tim kiem:\n");
+
+  int found = 0;
+  int len_search = strlen(search_string);
+
+  for (uint i = 0; i < system->product_array.count; i++) {
+    Product *product = &system->product_array.ptr[i];
+
+    int index = string_search(search_string, product->ProductName, len_search,
+                              strlen(product->ProductName));
+
+    if (index != -1) {
+      found = 1;
+
+      printf("ID: %d | Name: %s | Category: %s | PriceImport: %ld | "
+             "PriceSelling: %ld | LowStockThreHold: %d\n",
+             product->ProductID, product->ProductName, product->Category,
+             product->priceImport, product->priceSelling,
+             product->lowStockThreshold);
+
+      highlighting(COLOR_RED, search_string, product->ProductName, len_search,
+                   strlen(product->ProductName), index);
+      printf("\n");
+    }
+  }
+
+  if (!found) {
+    printf("Khong tim thay san pham nao!\n");
   }
 }
 // 7:
@@ -193,25 +262,24 @@ void SystemLowStockWarning(System *system) {
   printf("Tong so san pham sap het hang: %u\n", lowStockCount);
   printf("\n");
 }
-//10:
-void SystemCalculateProfit(System *system){
-    int sum_profit;
-    sum_profit = 0;
-    for (int i = 0; i < system->transaction_array.count; i++){
-        Transaction *transaction = &system->transaction_array.ptr[i];
-        Product *product = &system->product_array.ptr[transaction->productID];
-        unsigned long int Sell = product->priceSelling;
-        unsigned long int Import = product->priceImport;
-        if (transaction->isForSelling == 1 ){
-          //Caculate profit when selling product
-            sum_profit += (Sell - Import) * (transaction->quantity);
-        }
-        else{
-          //Caculate profit when import product
-            sum_profit -= Import * (transaction->quantity);
-        }
+// 10:
+void SystemCalculateProfit(System *system) {
+  int sum_profit;
+  sum_profit = 0;
+  for (uint i = 0; i < system->transaction_array.count; i++) {
+    Transaction *transaction = &system->transaction_array.ptr[i];
+    Product *product = &system->product_array.ptr[transaction->productID];
+    unsigned long int Sell = product->priceSelling;
+    unsigned long int Import = product->priceImport;
+    if (transaction->isForSelling == 1) {
+      // Caculate profit when selling product
+      sum_profit += (Sell - Import) * (transaction->quantity);
+    } else {
+      // Caculate profit when import product
+      sum_profit -= Import * (transaction->quantity);
     }
-    printf("Profit = %d\n", sum_profit);
+  }
+  printf("Profit = %d\n", sum_profit);
 }
 // 11:
 void SystemSetLowStockThreshold(System *system) {

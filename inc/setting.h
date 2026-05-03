@@ -4,6 +4,8 @@
 #define MAX_STRING_LENGTH 50
 #define MAX_FILE_STRING_LENGTH 50
 
+#define PRODUCT_ARRAY_MAX_CAPACITY 1000
+#define TRANSACTION_ARRAY_MAX_CAPACITY 10000
 typedef unsigned int uint;
 
 #endif

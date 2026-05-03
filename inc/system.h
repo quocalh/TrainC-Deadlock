@@ -2,11 +2,18 @@
 #define SYSTEM_H
 
 #include "systemArray.h"
+#include "systemTime.h"
 #include "transactionArray.h"
+
 typedef struct {
   productArray product_array;
   transactionArray transaction_array;
+
+  systemTime system_time;
 } System;
+
+void SystemInit(System *system);
+void SystemExit(System *system);
 
 // 1:
 void SystemAddNewProduct(System *system, int productID, char *productName,
@@ -21,16 +28,15 @@ void SystemModifyProduct(System *system);
 void SystemDeleteProduct(System *system, unsigned int productID);
 
 // 4:(done)
-void SystemUpdateStock(System *system, unsigned int productID,
-                       unsigned int quantityChange, int type);
+void SystemUpdateStock(System *system);
+
 // 5:(Done)
 void SystemDisplayProduct(System *system);
 
 // 6:
 void SystemSearchProductByID(System *system, int ProductID, char *productName,
                              unsigned long int priceSelling);
-void SystemSearchProductByName(System *system, int ProductID, char *productName,
-                               unsigned long int priceSelling);
+void SystemSearchProductByName(System *system);
 
 // 7:
 void SystemLowStockWarning(System *system);

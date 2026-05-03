@@ -71,7 +71,7 @@ int TransactionArrayAllocate(transactionArray *transaction_array,
   transaction_array->currentCapacity = new_capacity;
   return 1;
 }
-void TranscationArrayFree(transactionArray *transaction_array) {
+void TransactionArrayFree(transactionArray *transaction_array) {
   free(transaction_array->ptr);
   printf("TransactionArray: freed\n");
 }

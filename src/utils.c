@@ -1,6 +1,7 @@
 #include "../inc/utils.h"
 #include "../inc/systemColoring.h"
 
+#include <ctype.h>
 #include <malloc.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,7 +47,7 @@ uint swap_heap(void *a, void *b, size_t size) {
 int str_cmp(char *search, char *str, unsigned int p,
             unsigned int comparing_length) {
   for (unsigned int i = 0; i < comparing_length; i++) {
-    if (str[p + i] != search[i]) {
+    if (tolower(str[p + i]) != tolower(search[i])) {
       return 0;
     }
   }
@@ -68,7 +69,9 @@ void highlighting(char *color, char *keyword, char *str, uint l_s, uint l_str,
   while (p < l_str) {
     if ((p <= l_str - l_s) && str_cmp(keyword, str, p, l_s)) {
       printf("%s", color);
-      printf("%s", keyword);
+      for (uint i = 0; i < strlen(keyword); i++) {
+        printf("%c", str[p + i]);
+      }
       printf("%s", COLOR_NORMAL);
       p += l_s;
     } else {
@@ -76,6 +79,45 @@ void highlighting(char *color, char *keyword, char *str, uint l_s, uint l_str,
       p++;
     }
   }
+}
+
+void string_highlighting(char *color, char *keyword, char *str, uint l_s,
+                         uint l_str, uint start, char *return_str) {
+  if (l_str < l_s || l_s == 0) {
+    strcpy(return_str, str);
+    return;
+  }
+
+  uint p = start;
+  uint i = 0;
+
+  for (; i < p; i++) {
+    return_str[i] = str[i];
+  }
+
+  while (p < l_str) {
+    if ((p <= l_str - l_s) && str_cmp(keyword, str, p, l_s)) {
+      // the color code
+      for (int j = 0; color[j] != '\0'; j++) {
+        return_str[i++] = color[j];
+      }
+      // real content
+      for (uint j = 0; j < l_s; j++) {
+        return_str[i++] = str[p + j];
+      }
+
+      // the reset code
+      for (int j = 0; COLOR_NORMAL[j] != '\0'; j++) {
+        return_str[i++] = COLOR_NORMAL[j];
+      }
+
+      p += l_s;
+    } else {
+      return_str[i++] = str[p++];
+    }
+  }
+
+  return_str[i] = '\0';
 }
 
 // return the first apprearance index, return a -1 if search_string not found
