@@ -189,3 +189,29 @@ FILE *file_ptr = fopen(system_file->fileName, "r");
 
     fclose(file_ptr);
 }
+// save trans:
+void systemFileSaveTrasanctionArray(systemFile *system_file,transactionArray *transaction_array)
+{
+  FILE *file_ptr = fopen(system_file->fileName, "w");
+    if (file_ptr == NULL) {
+        printf("cannot open the given file: %s\n", system_file->fileName);
+        return;
+    }
+    for (unsigned int i = 0; i < transaction_array->count; i++) 
+    {
+        Transaction trans = transaction_array->ptr[i];
+        fprintf(file_ptr, "%u %u %u/%u/%u %u:%u:%u %hu\n", 
+                trans.productID, 
+                trans.quantity,
+                trans.time_stamp.date,   
+                trans.time_stamp.month, 
+                trans.time_stamp.year,
+                trans.time_stamp.hour,
+                trans.time_stamp.minute,
+                trans.time_stamp.second,
+                trans.isForSelling);  
+    }
+    fclose(file_ptr);
+}                                    
+
+                                    
