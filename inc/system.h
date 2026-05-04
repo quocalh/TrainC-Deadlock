@@ -18,11 +18,7 @@ void SystemInit(System *system);
 void SystemExit(System *system);
 
 // 1:
-void SystemAddNewProduct(System *system, int productID, char *productName,
-                         char *productCategory, int quantity,
-                         unsigned long int priceImport,
-                         unsigned long int priceSelling);
-
+void SystemAddNewProduct(System *system);
 // 2:(done)
 void SystemModifyProduct(System *system);
 

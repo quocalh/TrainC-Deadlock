@@ -13,3 +13,5 @@
 
 # ignore the transaction_testing.bat
 /io/transaction_testing.dat
+
+/io/.temp

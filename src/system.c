@@ -7,38 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-//1:
-void SystemAddNewPruduct(System *system){
-  unsigned int QuanityofProduct;
-  printf("Enter the Quanity of New Product: ");
-  scanf("%d",&QuanityofProduct);
-  for (int i = 0; i < QuanityofProduct; i++) {
-    char productName[100];
-    printf("Enter the new product name: ");
-    scanf("%s", &productName); 
-    char Category[100];
-    printf("Enter product category: ");
-    scanf("%s",&Category);
-    int quantity;
-    printf("Enter the quantity of products: ");
-     scanf("%d",&quantity);
-     unsigned long int priceImport;
-    printf("Enter entry price: ");
-    scanf("%lu",&priceImport);
-    unsigned long int priceSelling;
-    printf("Enter the selling price:");
-    scanf("%lu",&priceSelling);
-    unsigned int lowStockThreshold;
-    printf("Enter the lowStockThreshold: ");
-    scanf("%d",&lowStockThreshold);
-    printf("Added successfully!\n");
-     productArrayAddProduct(&system->product_array, productName, 
-        Category, quantity, priceImport, 
-        priceSelling, lowStockThreshold, 0);
-  }
-
-}
-
 void SystemInit(System *system) {
   system->product_array = productArrayInit(PRODUCT_ARRAY_MAX_CAPACITY);
   system->transaction_array =
@@ -50,62 +18,107 @@ void SystemExit(System *system) {
   TransactionArrayFree(&system->transaction_array);
 }
 
+// 1
+void SystemAddNewProduct(System *system) {
+  unsigned int QuanityofProduct;
+  printf("Enter the Quanity of New Product: ");
+  scanf("%u", &QuanityofProduct);
+
+  for (uint i = 0; i < QuanityofProduct; i++) {
+    char productName[100];
+    printf("Enter the new product name: ");
+    scanf(" %[^\n]", productName);
+
+    char Category[100];
+    printf("Enter product category: ");
+    scanf(" %[^\n]", Category);
+
+    int quantity;
+    printf("Enter the quantity of products: ");
+    scanf("%d", &quantity);
+
+    unsigned long int priceImport;
+    printf("Enter entry price: ");
+    scanf("%lu", &priceImport);
+
+    unsigned long int priceSelling;
+    printf("Enter the selling price: ");
+    scanf("%lu", &priceSelling);
+
+    unsigned int lowStockThreshold;
+    printf("Enter the lowStockThreshold: ");
+    scanf("%u", &lowStockThreshold);
+
+    printf("Added successfully!\n");
+
+    productArrayAddProduct(&system->product_array, productName, Category,
+                           quantity, priceImport, priceSelling,
+                           lowStockThreshold, 0);
+    printf("count: %d\n", system->product_array.count);
+  }
+}
+
 // 2:
 void SystemModifyProduct(System *system) {
-  // choose the product
   unsigned int ChosenID;
   printf("Nhap ID vao: ");
-  scanf("%d", &ChosenID);
+  scanf("%u", &ChosenID);
+
+  // clear buffer sau khi nhập số
+  int c;
+  while ((c = getchar()) != '\n' && c != EOF)
+    ;
+
   if (ChosenID >= system->product_array.count) {
     printf("ID khong tim thay\n");
     return;
   }
+
   Product *ModifyingProduct = &system->product_array.ptr[ChosenID];
-  // Change Name:
   char input[100];
-  printf("Ten moi (Ten cu: %s): ",
-         system->product_array.ptr[ChosenID].ProductName);
-  scanf("%s", input);
+
+  // Change Name
+  printf("Ten moi (Ten cu: %s): ", ModifyingProduct->ProductName);
+  scanf(" %99[^\n]", input);
   if (!(input[0] == '*' && input[1] == '\0')) {
     strcpy(ModifyingProduct->ProductName, input);
   }
+
   // Change Category
-  printf("Loai moi (Loai cu: %s): ",
-         system->product_array.ptr[ChosenID].Category);
-  scanf("%s", input);
+  printf("Loai moi (Loai cu: %s): ", ModifyingProduct->Category);
+  scanf(" %99[^\n]", input);
   if (!(input[0] == '*' && input[1] == '\0')) {
     strcpy(ModifyingProduct->Category, input);
   }
+
   // Change PriceImport
-  printf("Gia nhap moi (Gia nhap cu: %ld): ",
-         system->product_array.ptr[ChosenID].priceImport);
-  scanf("%s", input);
+  printf("Gia nhap moi (Gia nhap cu: %ld): ", ModifyingProduct->priceImport);
+  scanf(" %99s", input);
   if (!(input[0] == '*' && input[1] == '\0')) {
-    ModifyingProduct->priceImport = atoi(input);
+    ModifyingProduct->priceImport = atol(input);
   }
+
   // Change PriceSelling
-  printf("Gia ban moi (Gia ban cu: %ld): ",
-         system->product_array.ptr[ChosenID].priceSelling);
-  scanf("%s", input);
+  printf("Gia ban moi (Gia ban cu: %ld): ", ModifyingProduct->priceSelling);
+  scanf(" %99s", input);
   if (!(input[0] == '*' && input[1] == '\0')) {
-    ModifyingProduct->priceSelling = atoi(input);
+    ModifyingProduct->priceSelling = atol(input);
   }
-  // Change LowStockThreHold
-  printf("Nguong canh bao moi (Nguong canh bao cu: %d): ",
-         system->product_array.ptr[ChosenID].lowStockThreshold);
-  scanf("%s", input);
+
+  // Change LowStockThreshold
+  printf("Nguong canh bao moi (Nguong cu: %d): ",
+         ModifyingProduct->lowStockThreshold);
+  scanf(" %99s", input);
   if (!(input[0] == '*' && input[1] == '\0')) {
     ModifyingProduct->lowStockThreshold = atoi(input);
   }
-  // Print New Change
+
+  // Print result
   printf("ID: %d | Ten: %s | Loai: %s | Gia nhap: %ld | Gia ban: %ld | Nguong "
          "canh bao: %d\n",
-         system->product_array.ptr[ChosenID].ProductID,
-         system->product_array.ptr[ChosenID].ProductName,
-         system->product_array.ptr[ChosenID].Category,
-         system->product_array.ptr[ChosenID].priceImport,
-         system->product_array.ptr[ChosenID].priceSelling,
-         system->product_array.ptr[ChosenID].lowStockThreshold);
+         ModifyingProduct->ProductID, ModifyingProduct->ProductName,
+         ModifyingProduct->Category, ModifyingProduct->priceImport,
+         ModifyingProduct->priceSelling, ModifyingProduct->lowStockThreshold);
 }
 
 // 3:
@@ -203,7 +216,6 @@ void SystemUpdateStock(System *system) {
 }
 
 // 5
-// Show Display Products
 void SystemDisplayProduct(System *system) {
   productArray *product_Array = &system->product_array;
   for (unsigned int i = 0; i < system->product_array.count; i++) {
@@ -216,6 +228,7 @@ void SystemDisplayProduct(System *system) {
         product_Array->ptr[i].lowStockThreshold);
   }
 }
+
 // 6
 void SystemSearchProductByName(System *system) {
   char search_string[MAX_STRING_LENGTH];
@@ -253,6 +266,7 @@ void SystemSearchProductByName(System *system) {
     printf("Khong tim thay san pham nao!\n");
   }
 }
+
 // 7:
 void SystemLowStockWarning(System *system) {
   int options;

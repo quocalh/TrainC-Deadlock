@@ -13,9 +13,6 @@ void systemFileLoadProductArray(systemFile *system_file,
     return;
   }
 
-  // printf("%-5s %-8s %-12s %-13s %-18s %-20s %-10s %-8s\n", "ID", "Qty",
-  //        "Import", "Selling", "Product", "Category", "Threshold", "Deleted");
-
   Product product;
 
   while (fscanf(file_ptr, "%u \"%[^\"]\" \"%[^\"]\" %lu %lu %lu %u %u",
@@ -27,11 +24,6 @@ void systemFileLoadProductArray(systemFile *system_file,
                            product.quantity, product.priceImport,
                            product.priceSelling, product.lowStockThreshold,
                            product.isDeleted);
-
-    // printf("%-5d %-8ld %-12ld %-13ld %-18s %-20s %-10d %-8d\n",
-    //        product.ProductID, product.quantity, product.priceImport,
-    //        product.priceSelling, product.ProductName, product.Category,
-    //        product.lowStockThreshold, product.isDeleted);
   }
 
   fclose(file_ptr);
@@ -58,6 +50,7 @@ void systemFileSaveProductArray(systemFile *system_file,
 
   fclose(file_ptr);
 }
+
 // delete function
 void systemFileMarkDeleteProduct(systemFile *system_file, Product *product) {
   uint isFound = 0;
@@ -131,6 +124,7 @@ void systemFileModifyProduct(systemFile *system_file,
                              Product *modified_product) {
   FILE *file_ptr = fopen(system_file->fileName, "r");
   FILE *temp_ptr = fopen(system_file->fileNameTemp, "w");
+
   if (file_ptr == NULL || temp_ptr == NULL) {
     printf("can't open the given file: %s, %s", system_file->fileName,
            system_file->fileNameTemp);
@@ -139,16 +133,18 @@ void systemFileModifyProduct(systemFile *system_file,
   char buffer[MAX_FILE_WIDTH];
 
   uint isFound = 0;
-  while (fgets(buffer, MAX_FILE_WIDTH, file_ptr) == NULL) {
-    uint FileproductID;
+  while (fgets(buffer, MAX_FILE_WIDTH, file_ptr) != NULL) {
 
+    uint FileproductID;
     if (sscanf(buffer, "%u", &FileproductID) == 1) {
 
       if (FileproductID == modified_product->ProductID) {
         fprintf(temp_ptr, "%u \"%s\" \"%s\" %lu %lu %lu %u %u\n",
-                modified_product->ProductID, modified_product->ProductName, modified_product->Category,
-                modified_product->quantity, modified_product->priceImport, modified_product->priceSelling,
-                modified_product->lowStockThreshold, modified_product->isDeleted);
+                modified_product->ProductID, modified_product->ProductName,
+                modified_product->Category, modified_product->quantity,
+                modified_product->priceImport, modified_product->priceSelling,
+                modified_product->lowStockThreshold,
+                modified_product->isDeleted);
         isFound = 1;
       } else {
         fputs(buffer, temp_ptr);

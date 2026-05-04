@@ -66,6 +66,12 @@ void highlighting(char *color, char *keyword, char *str, uint l_s, uint l_str,
     return;
   }
   uint p = start;
+  uint i;
+
+  for (i = 0; i < p; i++) {
+    printf("%c", str[i]);
+  }
+
   while (p < l_str) {
     if ((p <= l_str - l_s) && str_cmp(keyword, str, p, l_s)) {
       printf("%s", color);
@@ -89,9 +95,9 @@ void string_highlighting(char *color, char *keyword, char *str, uint l_s,
   }
 
   uint p = start;
-  uint i = 0;
+  uint i;
 
-  for (; i < p; i++) {
+  for (i = 0; i < p; i++) {
     return_str[i] = str[i];
   }
 
@@ -122,6 +128,10 @@ void string_highlighting(char *color, char *keyword, char *str, uint l_s,
 
 // return the first apprearance index, return a -1 if search_string not found
 int string_search(char *search, char *str, uint l_s, uint l_str) {
+
+  if (l_str < l_s) {
+    return -1;
+  }
   uint p = 0;
 
   while (p <= l_str - l_s) {
