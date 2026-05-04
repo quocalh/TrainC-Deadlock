@@ -1,6 +1,7 @@
 #include "../inc/systemFile.h"
 #include "../inc/product.h"
 #include "../inc/setting.h"
+#include "../inc/transaction.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -161,4 +162,30 @@ void systemFileModifyProduct(systemFile *system_file,
   remove(system_file->fileName);
   rename(system_file->fileNameTemp, system_file->fileName);
   return;
+}
+// load trans:
+void systemFileLoadTransactionArray(systemFile *system_file, transactionArray *transaction_array)
+{
+FILE *file_ptr = fopen(system_file->fileName, "r");
+    if (file_ptr == NULL) 
+    {
+        printf("cannot open the given file: %s\n", system_file->fileName);
+        return;
+    }
+    Transaction trans;
+    while (fscanf(file_ptr, "%u %u %u/%u/%u %u:%u:%u %hu", 
+              &trans.productID, 
+              &trans.quantity,
+              &trans.time_stamp.date,   
+              &trans.time_stamp.month, 
+              &trans.time_stamp.year,
+              &trans.time_stamp.hour,
+              &trans.time_stamp.minute,
+              &trans.time_stamp.second,
+              &trans.isForSelling) == 9) 
+    {
+        transactionArrayAdd(transaction_array, trans); 
+    }
+
+    fclose(file_ptr);
 }
