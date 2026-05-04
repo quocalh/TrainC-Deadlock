@@ -213,5 +213,27 @@ void systemFileSaveTrasanctionArray(systemFile *system_file,transactionArray *tr
     }
     fclose(file_ptr);
 }                                    
+// append trans:
+void systemFileAppendTransaction(systemFile *system_file, Transaction *transaction) 
+{
+
+    FILE *file_ptr = fopen(system_file->fileName, "a");
+    if (file_ptr == NULL) 
+    {
+        printf("cannot open the given file to append: %s\n", system_file->fileName);
+        return;
+    }
+    fprintf(file_ptr, "%u %u %u/%u/%u %u:%u:%u %hu\n", 
+            transaction->productID, 
+            transaction->quantity,
+            transaction->time_stamp.date,  
+            transaction->time_stamp.month, 
+            transaction->time_stamp.year,
+            transaction->time_stamp.hour,
+            transaction->time_stamp.minute,
+            transaction->time_stamp.second,
+            transaction->isForSelling);
+    fclose(file_ptr);
+}
 
                                     
