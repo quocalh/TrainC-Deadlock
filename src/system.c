@@ -314,6 +314,27 @@ void SystemLowStockWarning(System *system) {
   printf("Tong so san pham sap het hang: %u\n", lowStockCount);
   printf("\n");
 }
+// 9
+void SystemProductTransactionHistory(System *system){
+    unsigned int ChosenID;
+  printf("Nhap ID vao: ");
+  scanf("%d", &ChosenID);
+  if (ChosenID >= system->transaction_array.count){
+    printf("ID khong tim thay\n");
+    return;
+  }
+    for (int i = 0; i < system->transaction_array.count; i++ ){
+
+        if (system->transaction_array.ptr[i].productID == ChosenID){
+            Transaction *t = &system->transaction_array.ptr[i];
+            printf(
+            "ID: %u | Quanity: %u | Type: %s | Time: %04u-%02u-%02u %02u:%02u:%02u\n",
+            t->productID, t->quantity, t->isForSelling ? "Selling" : "Buying",
+            t->time_stamp.year, t->time_stamp.month, t->time_stamp.date,
+            t->time_stamp.hour, t->time_stamp.minute, t->time_stamp.second);
+            }
+    }
+}
 
 // 10:
 void SystemCalculateProfit(System *system) {
