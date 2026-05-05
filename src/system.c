@@ -457,3 +457,56 @@ int SystemDisplaySortedProductByAlphabeticOrder(System *system) {
   free(ptr);
   return 1;
 }
+//13.1
+void SystemDisplayProductByStock(System *system) {
+    int options;
+    printf("Chon che do hien thi:\n");
+    printf("0: hien thi san pham co ton kho thap den cao\n");
+    printf("1: hien thi san pham co ton kho cao den thap\n");
+    printf("Lua chon cua ban: ");
+    scanf("%d", &options);
+    while (getchar() != '\n');
+    if (options != 1 && options != 0) {
+      printf("Lua chon khong hop le. Vui long nhap 0 hoac 1.\n");
+      while (getchar() != '\n');
+      return 0;
+    }
+    uint count = system->product_array.count;
+    uint *sort_ptr = malloc(count * sizeof(unsigned int));
+    if (sort_ptr == NULL) {
+        printf("Failed to allocate slots\n");
+        return 0;
+    }
+    for (uint i = 0; i < count; i++) {
+        sort_ptr[i] = i;
+    }
+    for (uint i = 0; i < count; i++) {
+        for (uint j = i + 1; j < count; j++) {
+            uint stock1 = system->product_array.ptr[sort_ptr[i]].quantity;
+            uint stock2 = system->product_array.ptr[sort_ptr[j]].quantity;
+            switch (options)
+            {
+            case 0:
+                if (stock1 > stock2) {
+                    swap_heap(sort_ptr + i, sort_ptr + j, sizeof(unsigned int));
+                }
+                break;
+            case 1:
+                if (stock1 < stock2) {
+                    swap_heap(sort_ptr + i, sort_ptr + j, sizeof(unsigned int));
+                }
+                break;
+            default:
+                break;
+            }
+        }
+    }
+    printf("%-20s | %-10s\n", "Ten San Pham", "Ton Kho");
+    for (uint i = 0; i < system->product_array.count; i++) {
+        char *name = system->product_array.ptr[sort_ptr[i]].ProductName;
+        uint qtt = system->product_array.ptr[sort_ptr[i]].quantity;
+        printf("%-20s | %-10u\n", name, qtt);
+    }
+    free(sort_ptr);
+    return 1;
+}
