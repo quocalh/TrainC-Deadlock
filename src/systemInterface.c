@@ -7,89 +7,104 @@ void clearBuffer() {
     ;
 }
 
-void Interface(System *system) {
-  int choice;
-  do {
-    printf("\n====================================");
-    printf("\n       HỆ THỐNG QUẢN LÝ      ");
-    printf("\n====================================");
-    printf("\n1. Thêm sản phẩm mới");
-    printf("\n2. Sửa thông tin sản phẩm");
-    printf("\n3. Xóa sản phẩm");
-    printf("\n4. Hiển thị danh sách sản phẩm");
-    printf("\n5. Sắp xếp và hiển thị sản phẩm");
-    printf("\n6. Cập nhật số lượng kho (Stock)");
-    printf("\n7. Thiết lập ngưỡng thông báo (Threshold)");
-    printf("\n0. Thoát chương trình");
-    printf("\n------------------------------------");
-    printf("\nLựa chọn của bạn: ");
-    scanf("%d", &choice);
+void Interface(System *system) 
+{
+    int choice;
+    do {
+        printf("\n====================================");
+        printf("\n       HE THONG QUAN LY       ");
+        printf("\n====================================");
+        printf("\n1. Them san pham moi");
+        printf("\n2. Sua thong tin san pham");
+        printf("\n3. Xoa san pham");
+        printf("\n4. Hien thi danh sach san pham");
+        printf("\n5. Sap xep va hien thi san pham");
+        printf("\n6. Cap nhat so luong kho (Stock)");
+        printf("\n7. Thiet lap nguong thong bao (Threshold)");
+        printf("\n0. Thoat chuong trinh");
+        printf("\n------------------------------------");
+        printf("\nLua chon cua ban: ");
+        
+        if (scanf("%d", &choice) != 1) {
+            printf("\nLoi: Vui long nhap so!");
+            clearBuffer();
+            choice = -1; // Gan gia tri tam de tiep tuc vong lap
+            continue;
+        }
+        clearBuffer();
+
+        switch (choice) {
+        case 1:
+            InterfaceAddNewProduct(system);
+            break;
+        case 2:
+            InterfaceModifyProduct(system);
+            break;
+        case 3:
+            InterfaceDeleteProduct(system);
+            break;
+        case 4:
+            InterfaceDisplayProduct(system);
+            break;
+        case 5:
+            InterfaceDisplaySortedProduct(system);
+            break;
+        case 6:
+            InterfaceUpdateStock(system);
+            break;
+        case 7:
+            InterfaceSetProductThreshold(system);
+            break;
+        case 0:
+            printf("\nDang thoat...\n");
+            break;
+        default:
+            printf("\nLua chon khong hop le! Vui long thu lai.");
+        }
+    } while (choice != 0);
+}
+
+void InterfaceAddNewProduct(System *system) 
+{
+    printf("\n--- THEM SAN PHAM MOI ---");
+    printf("\n[Thong bao] Da them san pham thanh cong!");
+}
+
+void InterfaceModifyProduct(System *system) 
+{
+    printf("\n--- SUA THONG TIN SAN PHAM ---");
+    char id[20];
+    printf("\nNhap ma san pham can sua: ");
+    scanf("%s", id);
     clearBuffer();
-
-    switch (choice) {
-    case 1:
-      InterfaceAddNewProduct(system);
-      break;
-    case 2:
-      InterfaceModifyProduct(system);
-      break;
-    case 3:
-      InterfaceDeleteProduct(system);
-      break;
-    case 4:
-      InterfaceDisplayProduct(system);
-      break;
-    case 5:
-      InterfaceDisplaySortedProduct(system);
-      break;
-    case 6:
-      InterfaceUpdateStock(system);
-      break;
-    case 7:
-      InterfaceSetProductThreshold(system);
-      break;
-    case 0:
-      printf("\nĐang thoát...\n");
-      break;
-    default:
-      printf("\nLựa chọn không hợp lệ! Vui lòng thử lại.");
-    }
-  } while (choice != 0);
 }
 
-void InterfaceAddNewProduct(System *system) {
-  printf("\n--- THÊM SẢN PHẨM MỚI ---");
-  printf("\n[Thông báo] Đã thêm sản phẩm thành công!");
-}
-void InterfaceModifyProduct(System *system) {
-  printf("\n--- SỬA THÔNG TIN SẢN PHẨM ---");
-  char id[20];
-  printf("Nhập mã sản phẩm cần sửa: ");
-  scanf("%s", id);
+void InterfaceDeleteProduct(System *system) 
+{
+    printf("\n--- XOA SAN PHAM ---");
+    char id[20];
+    printf("\nNhap ma san pham muon xoa: ");
+    scanf("%s", id);
+    clearBuffer();
 }
 
-void InterfaceDeleteProduct(System *system) {
-  printf("\n--- XÓA SẢN PHẨM ---");
-  char id[20];
-  printf("Nhập mã sản phẩm muốn xóa: ");
-  scanf("%s", id);
+void InterfaceDisplayProduct(System *system) 
+{
+    printf("\n--- DANH SACH SAN PHAM ---\n");
+    printf("%-10s | %-20s | %-10s | %-10s\n", "Ma SP", "Ten SP", "Gia", "Ton kho");
 }
 
-void InterfaceDisplayProduct(System *system) {
-  printf("\n--- DANH SÁCH SẢN PHẨM ---\n");
-  printf("%-10s | %-20s | %-10s | %-10s\n", "Mã SP", "Tên SP", "Giá",
-         "Tồn kho");
+void InterfaceUpdateStock(System *system) 
+{
+    printf("\n--- CAP NHAT KHO HANG ---");
 }
 
-void InterfaceUpdateStock(System *system) {
-  printf("\n--- CẬP NHẬT KHO HÀNG ---");
+void InterfaceDisplaySortedProduct(System *system) 
+{
+    printf("\n--- DANH SACH DA SAP XEP ---");
 }
 
-void InterfaceDisplaySortedProduct(System *system) {
-  printf("\n--- DANH SÁCH ĐÃ SẮP XẾP ---");
-  // logic: sortSystem(system); sau đó in ra
-}
-
-void InterfaceSetProductThreshold(System *system) {
-  printf("\n--- THIẾT LẬP NGƯỠNG CẢNH BÁO ---");
+void InterfaceSetProductThreshold(System *system) 
+{
+    printf("\n--- THIET LAP NGUONG CANH BAO ---");
 }

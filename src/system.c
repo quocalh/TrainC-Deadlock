@@ -216,19 +216,25 @@ void SystemUpdateStock(System *system) {
 }
 
 // 5
-void SystemDisplayProduct(System *system) {
-  productArray *product_Array = &system->product_array;
-  for (unsigned int i = 0; i < system->product_array.count; i++) {
-    printf(
-        "ID: %d | Name: %s | Category: %s | PriceImport: %ld | PriceSelling: "
-        "%ld | LowStockThreHold: %d\n",
-        product_Array->ptr[i].ProductID, product_Array->ptr[i].ProductName,
-        product_Array->ptr[i].Category, product_Array->ptr[i].priceImport,
-        product_Array->ptr[i].priceSelling,
-        product_Array->ptr[i].lowStockThreshold);
-  }
+void SystemDisplayProduct(System *system) 
+{
+    productArray *product_Array = &((*system).product_array);
+    printf("\n--------------------------------------------------------------------------------------------------\n");
+    printf("%-5s | %-20s | %-15s | %-12s | %-12s | %-8s\n", 
+           "ID", "Name", "Category", "PriceImport", "PriceSelling", "Threshold");
+    printf("--------------------------------------------------------------------------------------------------\n");
+    for (unsigned int i = 0; i < (*product_Array).count; i++)
+    {
+        printf("%-5d | %-20s | %-15s | %-12ld | %-12ld | %-8d\n",
+               (*product_Array).ptr[i].ProductID, 
+               (*product_Array).ptr[i].ProductName,
+               (*product_Array).ptr[i].Category, 
+               (*product_Array).ptr[i].priceImport,
+               (*product_Array).ptr[i].priceSelling,
+               (*product_Array).ptr[i].lowStockThreshold);
+    }
+    printf("--------------------------------------------------------------------------------------------------\n");
 }
-
 // 6
 void SystemSearchProductByName(System *system) {
   char search_string[MAX_STRING_LENGTH];
