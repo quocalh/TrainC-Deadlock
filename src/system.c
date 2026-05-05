@@ -308,6 +308,7 @@ void SystemLowStockWarning(System *system) {
   printf("Tong so san pham sap het hang: %u\n", lowStockCount);
   printf("\n");
 }
+
 // 10:
 void SystemCalculateProfit(System *system) {
   int sum_profit;
@@ -364,6 +365,38 @@ void SystemSetLowStockThreshold(System *system) {
   printf("Nguong canh bao cho san pham ten '%s' thanh %u \n",
          pArray->ptr[targetIndex].ProductName, newThreshold);
 }
+
+// 12:
+int SystemDisplayProductByCategories(System *system) {
+  uint count = system->product_array.count;
+  uint *sort_ptr = malloc(count * sizeof(unsigned int));
+  if (sort_ptr == NULL) {
+    printf("Failed to allocate slots\n");
+    return 0;
+  }
+  // bijection access
+  for (uint i = 0; i < count; i++) {
+    sort_ptr[i] = i;
+  }
+
+  // perform selection sort
+  for (uint i = 0; i < count; i++) {
+    for (uint j = i + 1; j < count; j++) {
+      char *str1 = system->product_array.ptr[sort_ptr[i]].Category;
+      char *str2 = system->product_array.ptr[sort_ptr[j]].Category;
+      if (strcasecmp(str1, str2) > 0) {
+        swap_heap(sort_ptr + i, sort_ptr + j, sizeof(unsigned int));
+      }
+    }
+  }
+  for (uint i = 0; i < system->product_array.count; i++) {
+    char *bijection_string = system->product_array.ptr[sort_ptr[i]].Category;
+    printf("%s\n", bijection_string);
+  }
+  free(sort_ptr);
+  return 1;
+}
+
 // 13
 int SystemDisplaySortedProductByAlphabeticOrder(System *system) {
   // uint is_reversed = 0;
@@ -394,5 +427,6 @@ int SystemDisplaySortedProductByAlphabeticOrder(System *system) {
     char *bijection_string = system->product_array.ptr[ptr[i]].ProductName;
     printf("%s\n", bijection_string);
   }
+  free(ptr);
   return 1;
 }

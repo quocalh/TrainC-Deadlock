@@ -11,7 +11,9 @@ typedef struct {
   transactionArray transaction_array;
 
   systemTime system_time;
-  systemFile system_file;
+
+  systemFile system_file_product;
+  systemFile system_file_transaction;
 } System;
 
 void SystemInit(System *system);
@@ -28,7 +30,7 @@ void SystemDeleteProduct(System *system, unsigned int productID);
 // 4:(done)
 void SystemUpdateStock(System *system);
 
-// 5:(Done)
+// 5:(done)
 void SystemDisplayProduct(System *system);
 
 // 6:
@@ -38,6 +40,7 @@ void SystemSearchProductByName(System *system);
 
 // 7:
 void SystemLowStockWarning(System *system);
+
 // 8:
 void SystemReadFile(System *system, int ProductID, char *productName,
                     char *productCategory, int quantity,
@@ -52,14 +55,14 @@ void SystemWriteFile(System *system, int ProductID, char *productName,
 void SystemImportandExportHistory(System *system, int ProductID,
                                   char *productName, char *productCategory,
                                   int quantity, unsigned long int priceImport);
-// 10(done):
+// 10: (done)
 void SystemCalculateProfit(System *system);
 
 // 11:
 void SystemSetLowStockThreshold(System *system);
 
 // 12:
-void SystemDisplayProductByCategories(System *system);
+int SystemDisplayProductByCategories(System *system);
 
 // 13:
 void SystemDisplaySortedProductByStockAndThresholdGap(System *system);

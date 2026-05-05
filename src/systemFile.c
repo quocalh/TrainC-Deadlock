@@ -2,6 +2,7 @@
 #include "../inc/product.h"
 #include "../inc/setting.h"
 #include "../inc/transaction.h"
+#include "../inc/transactionArray.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -163,77 +164,61 @@ void systemFileModifyProduct(systemFile *system_file,
   rename(system_file->fileNameTemp, system_file->fileName);
   return;
 }
-// load trans:
-void systemFileLoadTransactionArray(systemFile *system_file, transactionArray *transaction_array)
-{
-FILE *file_ptr = fopen(system_file->fileName, "r");
-    if (file_ptr == NULL) 
-    {
-        printf("cannot open the given file: %s\n", system_file->fileName);
-        return;
-    }
-    Transaction trans;
-    while (fscanf(file_ptr, "%u %u %u/%u/%u %u:%u:%u %hu", 
-              &trans.productID, 
-              &trans.quantity,
-              &trans.time_stamp.date,   
-              &trans.time_stamp.month, 
-              &trans.time_stamp.year,
-              &trans.time_stamp.hour,
-              &trans.time_stamp.minute,
-              &trans.time_stamp.second,
-              &trans.isForSelling) == 9) 
-    {
-        transactionArrayAdd(transaction_array, trans); 
-    }
 
-    fclose(file_ptr);
+// load trans:
+void systemFileLoadTransactionArray(systemFile *system_file,
+                                    transactionArray *transaction_array) {
+  FILE *file_ptr = fopen(system_file->fileName, "r");
+  if (file_ptr == NULL) {
+    printf("cannot open the given file: %s\n", system_file->fileName);
+    return;
+  }
+  Transaction trans;
+  while (fscanf(file_ptr, "%u %u %u/%u/%u %u:%u:%u %hu", &trans.productID,
+                &trans.quantity, &trans.time_stamp.date,
+                &trans.time_stamp.month, &trans.time_stamp.year,
+                &trans.time_stamp.hour, &trans.time_stamp.minute,
+                &trans.time_stamp.second, &trans.isForSelling) == 9) {
+
+    TransactionArrayAddTransaction(transaction_array, trans.productID,
+                                   trans.time_stamp, trans.quantity,
+                                   trans.isForSelling);
+  }
+
+  fclose(file_ptr);
 }
 // save trans:
-void systemFileSaveTrasanctionArray(systemFile *system_file,transactionArray *transaction_array)
-{
+void systemFileSaveTrasanctionArray(systemFile *system_file,
+                                    transactionArray *transaction_array) {
   FILE *file_ptr = fopen(system_file->fileName, "w");
-    if (file_ptr == NULL) {
-        printf("cannot open the given file: %s\n", system_file->fileName);
-        return;
-    }
-    for (unsigned int i = 0; i < transaction_array->count; i++) 
-    {
-        Transaction trans = transaction_array->ptr[i];
-        fprintf(file_ptr, "%u %u %u/%u/%u %u:%u:%u %hu\n", 
-                trans.productID, 
-                trans.quantity,
-                trans.time_stamp.date,   
-                trans.time_stamp.month, 
-                trans.time_stamp.year,
-                trans.time_stamp.hour,
-                trans.time_stamp.minute,
-                trans.time_stamp.second,
-                trans.isForSelling);  
-    }
-    fclose(file_ptr);
-}                                    
-// append trans:
-void systemFileAppendTransaction(systemFile *system_file, Transaction *transaction) 
-{
-
-    FILE *file_ptr = fopen(system_file->fileName, "a");
-    if (file_ptr == NULL) 
-    {
-        printf("cannot open the given file to append: %s\n", system_file->fileName);
-        return;
-    }
-    fprintf(file_ptr, "%u %u %u/%u/%u %u:%u:%u %hu\n", 
-            transaction->productID, 
-            transaction->quantity,
-            transaction->time_stamp.date,  
-            transaction->time_stamp.month, 
-            transaction->time_stamp.year,
-            transaction->time_stamp.hour,
-            transaction->time_stamp.minute,
-            transaction->time_stamp.second,
-            transaction->isForSelling);
-    fclose(file_ptr);
+  if (file_ptr == NULL) {
+    printf("cannot open the given file: %s\n", system_file->fileName);
+    return;
+  }
+  for (unsigned int i = 0; i < transaction_array->count; i++) {
+    Transaction trans = transaction_array->ptr[i];
+    fprintf(file_ptr, "%u %u %u/%u/%u %u:%u:%u %hu\n", trans.productID,
+            trans.quantity, trans.time_stamp.date, trans.time_stamp.month,
+            trans.time_stamp.year, trans.time_stamp.hour,
+            trans.time_stamp.minute, trans.time_stamp.second,
+            trans.isForSelling);
+  }
+  fclose(file_ptr);
 }
 
-                                    
+// append trans:
+void systemFileAppendTransaction(systemFile *system_file,
+                                 Transaction *transaction) {
+
+  FILE *file_ptr = fopen(system_file->fileName, "a");
+  if (file_ptr == NULL) {
+    printf("cannot open the given file to append: %s\n", system_file->fileName);
+    return;
+  }
+  fprintf(file_ptr, "%u %u %u/%u/%u %u:%u:%u %hu\n", transaction->productID,
+          transaction->quantity, transaction->time_stamp.date,
+          transaction->time_stamp.month, transaction->time_stamp.year,
+          transaction->time_stamp.hour, transaction->time_stamp.minute,
+          transaction->time_stamp.second, transaction->isForSelling);
+  fclose(file_ptr);
+}

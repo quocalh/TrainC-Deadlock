@@ -32,6 +32,7 @@ void TransactionArrayAddTransaction(transactionArray *transaction_array,
   int success =
       TransactionArrayAllocate(transaction_array, transaction_array->count + 1);
   if (!success) {
+    printf("failed to allocate slots\n");
     return;
   }
   transaction_array->ptr[transaction_array->count].productID = productID;

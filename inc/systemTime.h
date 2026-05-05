@@ -4,12 +4,10 @@
 #include <time.h>
 typedef struct {
   time_t now;
-  struct tm *time;
+  struct tm time;
 } systemTime;
 
 typedef struct {
-  time_t now;
-  struct tm *time;
   unsigned int year;
   unsigned int month;
   unsigned int date;
@@ -18,8 +16,8 @@ typedef struct {
   unsigned int second;
 } timeStamp;
 
-void fetchTime(systemTime *system_time);
-void saveTick(systemTime *system_time, timeStamp *time_stamp);
+// void fetchTime(systemTime *system_time);
+// void saveTick(systemTime *system_time, timeStamp *time_stamp);
 
 void SystemTimeFetchTime(systemTime *system_time);
 void SystemTimeSaveTick(systemTime *system_time, timeStamp *time_stamp);
