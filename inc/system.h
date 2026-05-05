@@ -64,10 +64,4 @@ int SystemDisplayProductByCategories(System *system);
 
 // 13:
 int SystemDisplaySortedProductByAlphabeticOrder(System *system);
-void SystemDisplayProductByStock(System *system);
-
-// 14:
-// -> product.dat -> product.txt ahh funcs
-void SystemLogStock(System *system);
-void SystemLogHistoryTransaction(System *system);
 #endif
