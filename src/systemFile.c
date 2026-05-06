@@ -60,9 +60,11 @@ void systemFileMarkDeleteProduct(systemFile *system_file, Product *product) {
 
   FILE *file_ptr = fopen(system_file->fileName, "r");
   FILE *temp = fopen(system_file->fileNameTemp, "w");
-
+  printf("%s, %s\n", system_file->fileName, system_file->fileNameTemp);
   if (file_ptr == NULL || temp == NULL) {
     printf("cannot open the given file: %s\n", system_file->fileName);
+    fclose(file_ptr);
+    fclose(temp);
     return;
   }
   while (fgets(buffer, MAX_FILE_WIDTH, file_ptr) != NULL) {
@@ -71,12 +73,13 @@ void systemFileMarkDeleteProduct(systemFile *system_file, Product *product) {
     if (sscanf(buffer, "%u", &id_in_file) == 1) {
 
       if (id_in_file == product->ProductID) {
-
-        if (product->isDeleted == 1) {
-          product->isDeleted = 0;
-        } else if (product->isDeleted == 0) {
-          product->isDeleted = 1;
-        }
+        // product->isDeleted = 1;
+        printf("jackpot: %d\n", product->isDeleted);
+        // if (product->isDeleted == 1) {
+        //   product->isDeleted = 0;
+        // } else if (product->isDeleted == 0) {
+        //   product->isDeleted = 1;
+        // }
 
         fprintf(temp, "%u \"%s\" \"%s\" %lu %lu %lu %u %u\n",
                 product->ProductID, product->ProductName, product->Category,
@@ -92,6 +95,8 @@ void systemFileMarkDeleteProduct(systemFile *system_file, Product *product) {
 
   if (!isFound) {
     printf("ID not found.\n");
+    fclose(file_ptr);
+    fclose(temp);
     return;
   }
 
@@ -130,6 +135,8 @@ void systemFileModifyProduct(systemFile *system_file,
   if (file_ptr == NULL || temp_ptr == NULL) {
     printf("can't open the given file: %s, %s", system_file->fileName,
            system_file->fileNameTemp);
+    fclose(file_ptr);
+    fclose(temp_ptr);
     return;
   }
   char buffer[MAX_FILE_WIDTH];
@@ -155,6 +162,8 @@ void systemFileModifyProduct(systemFile *system_file,
   }
   if (!isFound) {
     printf("ID not found");
+    fclose(file_ptr);
+    fclose(temp_ptr);
     return;
   }
 

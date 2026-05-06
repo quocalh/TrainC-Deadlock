@@ -1,6 +1,7 @@
 #include "../inc/system.h"
 #include "../inc/setting.h"
 #include "../inc/systemColoring.h"
+#include "../inc/systemFile.h"
 #include "../inc/transactionArray.h"
 #include "../inc/utils.h"
 #include <stdio.h>
@@ -11,6 +12,15 @@ void SystemInit(System *system) {
   system->product_array = productArrayInit(PRODUCT_ARRAY_MAX_CAPACITY);
   system->transaction_array =
       TransactionArrayInit(TRANSACTION_ARRAY_MAX_CAPACITY);
+
+  strcpy(system->system_file_product.fileName, "io/product.dat");
+  strcpy(system->system_file_product.fileNameTemp, "io/.temp");
+
+  strcpy(system->system_file_transaction.fileName, "io/transaction.dat");
+  strcpy(system->system_file_transaction.fileNameTemp, "io/.temp");
+
+  strcpy(system->system_file_report.fileName, "io/report.txt");
+  strcpy(system->system_file_report.fileNameTemp, "io/.temp");
 }
 
 void SystemExit(System *system) {
@@ -55,6 +65,9 @@ void SystemAddNewProduct(System *system) {
                            quantity, priceImport, priceSelling,
                            lowStockThreshold, 0);
     printf("count: %d\n", system->product_array.count);
+    systemFileAppendProduct(
+        &system->system_file_product,
+        &system->product_array.ptr[system->product_array.count - 1]);
   }
 }
 
@@ -119,12 +132,21 @@ void SystemModifyProduct(System *system) {
          ModifyingProduct->ProductID, ModifyingProduct->ProductName,
          ModifyingProduct->Category, ModifyingProduct->priceImport,
          ModifyingProduct->priceSelling, ModifyingProduct->lowStockThreshold);
+
+  // File save the changes
+  systemFileModifyProduct(&system->system_file_product,
+                          &system->product_array.ptr[ChosenID]);
 }
 
 // 3:
-void SystemDeleteProduct(System *system, unsigned int productID) {
+void SystemDeleteProduct(System *system) {
   if (system == NULL)
     return;
+
+  uint productID;
+  printf("Dien vao ID san pham muon xoa: ");
+  scanf("%u", &productID);
+
   productArray *pArray = &(system->product_array);
   int targetIndex = -1;
   for (unsigned int i = 0; i < pArray->count; i++) {
@@ -159,7 +181,12 @@ void SystemDeleteProduct(System *system, unsigned int productID) {
     return;
   }
   pArray->ptr[targetIndex].isDeleted = 1;
-  printf("Da xoa san pham ID %d thanh cong.\n", productID);
+  printf("Da danh dau het hang san pham ID %d thanh cong.\n", productID);
+
+  // systemFileMarkDeleteProduct(&system->system_file_product,
+  //                             &system->product_array.ptr[productID]);
+  systemFileModifyProduct(&system->system_file_product,
+                          &system->product_array.ptr[productID]);
 }
 
 // 4:
@@ -213,29 +240,45 @@ void SystemUpdateStock(System *system) {
   } else {
     system->product_array.ptr[productID].quantity += quantity;
   }
+  // to change the quantity
+  systemFileModifyProduct(&system->system_file_product,
+                          &system->product_array.ptr[productID]);
 }
 
 // 5
-void SystemDisplayProduct(System *system) 
-{
-    productArray *product_Array = &((*system).product_array);
-    printf("\n--------------------------------------------------------------------------------------------------\n");
-    printf("%-5s | %-20s | %-15s | %-12s | %-12s | %-8s\n", 
-           "ID", "Name", "Category", "PriceImport", "PriceSelling", "Threshold");
-    printf("--------------------------------------------------------------------------------------------------\n");
-    for (unsigned int i = 0; i < (*product_Array).count; i++)
-    {
-        printf("%-5d | %-20s | %-15s | %-12ld | %-12ld | %-8d\n",
-               (*product_Array).ptr[i].ProductID, 
-               (*product_Array).ptr[i].ProductName,
-               (*product_Array).ptr[i].Category, 
-               (*product_Array).ptr[i].priceImport,
-               (*product_Array).ptr[i].priceSelling,
-               (*product_Array).ptr[i].lowStockThreshold);
-    }
-    printf("--------------------------------------------------------------------------------------------------\n");
+void SystemDisplayProduct(System *system) {
+  productArray *product_Array = &((*system).product_array);
+  printf("\n-------------------------------------------------------------------"
+         "-------------------------------\n");
+  printf("%-5s | %-20s | %-15s | %-12s | %-12s | %-8s\n", "ID", "Name",
+         "Category", "PriceImport", "PriceSelling", "Threshold");
+  printf("---------------------------------------------------------------------"
+         "-----------------------------\n");
+  for (unsigned int i = 0; i < (*product_Array).count; i++) {
+    printf(
+        "%-5d | %-20s | %-15s | %-12ld | %-12ld | %-8d\n",
+        (*product_Array).ptr[i].ProductID, (*product_Array).ptr[i].ProductName,
+        (*product_Array).ptr[i].Category, (*product_Array).ptr[i].priceImport,
+        (*product_Array).ptr[i].priceSelling,
+        (*product_Array).ptr[i].lowStockThreshold);
+  }
+  printf("---------------------------------------------------------------------"
+         "-----------------------------\n");
 }
+
 // 6
+void SystemSearchProductByID(System *system) {
+  uint productID;
+  printf("Nhap ID san pham can tim: ");
+  scanf("%d", &productID);
+  Product *product = &system->product_array.ptr[productID];
+  printf("ID: %d | Name: %s | Category: %s | PriceImport: %ld | "
+         "PriceSelling: %ld | LowStockThreHold: %d\n",
+         product->ProductID, product->ProductName, product->Category,
+         product->priceImport, product->priceSelling,
+         product->lowStockThreshold);
+}
+
 void SystemSearchProductByName(System *system) {
   char search_string[MAX_STRING_LENGTH];
 
@@ -315,25 +358,25 @@ void SystemLowStockWarning(System *system) {
   printf("\n");
 }
 // 9
-void SystemProductTransactionHistory(System *system){
-    unsigned int ChosenID;
+void SystemProductTransactionHistory(System *system) {
+  unsigned int ChosenID;
   printf("Nhap ID vao: ");
   scanf("%d", &ChosenID);
-  if (ChosenID >= system->transaction_array.count){
+  if (ChosenID >= system->transaction_array.count) {
     printf("ID khong tim thay\n");
     return;
   }
-    for (int i = 0; i < system->transaction_array.count; i++ ){
+  for (uint i = 0; i < system->transaction_array.count; i++) {
 
-        if (system->transaction_array.ptr[i].productID == ChosenID){
-            Transaction *t = &system->transaction_array.ptr[i];
-            printf(
-            "ID: %u | Quanity: %u | Type: %s | Time: %04u-%02u-%02u %02u:%02u:%02u\n",
-            t->productID, t->quantity, t->isForSelling ? "Selling" : "Buying",
-            t->time_stamp.year, t->time_stamp.month, t->time_stamp.date,
-            t->time_stamp.hour, t->time_stamp.minute, t->time_stamp.second);
-            }
+    if (system->transaction_array.ptr[i].productID == ChosenID) {
+      Transaction *t = &system->transaction_array.ptr[i];
+      printf("ID: %u | Quanity: %u | Type: %s | Time: %04u-%02u-%02u "
+             "%02u:%02u:%02u\n",
+             t->productID, t->quantity, t->isForSelling ? "Selling" : "Buying",
+             t->time_stamp.year, t->time_stamp.month, t->time_stamp.date,
+             t->time_stamp.hour, t->time_stamp.minute, t->time_stamp.second);
     }
+  }
 }
 
 // 10:
@@ -457,56 +500,59 @@ int SystemDisplaySortedProductByAlphabeticOrder(System *system) {
   free(ptr);
   return 1;
 }
-//13.1
-void SystemDisplayProductByStock(System *system) {
-    int options;
-    printf("Chon che do hien thi:\n");
-    printf("0: hien thi san pham co ton kho thap den cao\n");
-    printf("1: hien thi san pham co ton kho cao den thap\n");
-    printf("Lua chon cua ban: ");
-    scanf("%d", &options);
-    while (getchar() != '\n');
-    if (options != 1 && options != 0) {
-      printf("Lua chon khong hop le. Vui long nhap 0 hoac 1.\n");
-      while (getchar() != '\n');
-      return 0;
-    }
-    uint count = system->product_array.count;
-    uint *sort_ptr = malloc(count * sizeof(unsigned int));
-    if (sort_ptr == NULL) {
-        printf("Failed to allocate slots\n");
-        return 0;
-    }
-    for (uint i = 0; i < count; i++) {
-        sort_ptr[i] = i;
-    }
-    for (uint i = 0; i < count; i++) {
-        for (uint j = i + 1; j < count; j++) {
-            uint stock1 = system->product_array.ptr[sort_ptr[i]].quantity;
-            uint stock2 = system->product_array.ptr[sort_ptr[j]].quantity;
-            switch (options)
-            {
-            case 0:
-                if (stock1 > stock2) {
-                    swap_heap(sort_ptr + i, sort_ptr + j, sizeof(unsigned int));
-                }
-                break;
-            case 1:
-                if (stock1 < stock2) {
-                    swap_heap(sort_ptr + i, sort_ptr + j, sizeof(unsigned int));
-                }
-                break;
-            default:
-                break;
-            }
+// 13.1
+int SystemDisplayProductByStock(System *system) {
+  int options;
+  printf("Chon che do hien thi:\n");
+  printf("0: hien thi san pham co ton kho thap den cao\n");
+  printf("1: hien thi san pham co ton kho cao den thap\n");
+  printf("Lua chon cua ban: ");
+  scanf("%d", &options);
+  while (getchar() != '\n')
+    ;
+  if (options != 1 && options != 0) {
+    printf("Lua chon khong hop le. Vui long nhap 0 hoac 1.\n");
+    while (getchar() != '\n')
+      ;
+    return 0;
+  }
+  uint count = system->product_array.count;
+  uint *sort_ptr = malloc(count * sizeof(unsigned int));
+  if (sort_ptr == NULL) {
+    printf("Failed to allocate slots\n");
+    return 0;
+  }
+
+  for (uint i = 0; i < count; i++) {
+    sort_ptr[i] = i;
+  }
+
+  for (uint i = 0; i < count; i++) {
+    for (uint j = i + 1; j < count; j++) {
+      uint stock1 = system->product_array.ptr[sort_ptr[i]].quantity;
+      uint stock2 = system->product_array.ptr[sort_ptr[j]].quantity;
+      switch (options) {
+      case 0:
+        if (stock1 > stock2) {
+          swap_heap(sort_ptr + i, sort_ptr + j, sizeof(unsigned int));
         }
+        break;
+      case 1:
+        if (stock1 < stock2) {
+          swap_heap(sort_ptr + i, sort_ptr + j, sizeof(unsigned int));
+        }
+        break;
+      default:
+        break;
+      }
     }
-    printf("%-20s | %-10s\n", "Ten San Pham", "Ton Kho");
-    for (uint i = 0; i < system->product_array.count; i++) {
-        char *name = system->product_array.ptr[sort_ptr[i]].ProductName;
-        uint qtt = system->product_array.ptr[sort_ptr[i]].quantity;
-        printf("%-20s | %-10u\n", name, qtt);
-    }
-    free(sort_ptr);
-    return 1;
+  }
+  printf("%-20s | %-10s\n", "Ten San Pham", "Ton Kho");
+  for (uint i = 0; i < system->product_array.count; i++) {
+    char *name = system->product_array.ptr[sort_ptr[i]].ProductName;
+    uint qtt = system->product_array.ptr[sort_ptr[i]].quantity;
+    printf("%-20s | %-10u\n", name, qtt);
+  }
+  free(sort_ptr);
+  return 1;
 }

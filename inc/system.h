@@ -14,6 +14,7 @@ typedef struct {
 
   systemFile system_file_product;
   systemFile system_file_transaction;
+  systemFile system_file_report;
 } System;
 
 void SystemInit(System *system);
@@ -21,11 +22,12 @@ void SystemExit(System *system);
 
 // 1:
 void SystemAddNewProduct(System *system);
+
 // 2:(done)
 void SystemModifyProduct(System *system);
 
 // 3:(done)
-void SystemDeleteProduct(System *system, unsigned int productID);
+void SystemDeleteProduct(System *system);
 
 // 4:(done)
 void SystemUpdateStock(System *system);
@@ -34,8 +36,7 @@ void SystemUpdateStock(System *system);
 void SystemDisplayProduct(System *system);
 
 // 6:
-void SystemSearchProductByID(System *system, int ProductID, char *productName,
-                             unsigned long int priceSelling);
+void SystemSearchProductByID(System *system);
 void SystemSearchProductByName(System *system);
 
 // 7:
@@ -64,4 +65,5 @@ int SystemDisplayProductByCategories(System *system);
 
 // 13:
 int SystemDisplaySortedProductByAlphabeticOrder(System *system);
+int SystemDisplayProductByStock(System *system);
 #endif
