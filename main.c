@@ -53,6 +53,7 @@ int main() {
       break;
 
     case 7:
+      SystemLowStockWarning(&system);
       break;
 
     case 8:

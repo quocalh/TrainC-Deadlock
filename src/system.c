@@ -357,6 +357,7 @@ void SystemLowStockWarning(System *system) {
   printf("Tong so san pham sap het hang: %u\n", lowStockCount);
   printf("\n");
 }
+
 // 9
 void SystemProductTransactionHistory(System *system) {
   unsigned int ChosenID;
@@ -500,6 +501,7 @@ int SystemDisplaySortedProductByAlphabeticOrder(System *system) {
   free(ptr);
   return 1;
 }
+
 // 13.1
 int SystemDisplayProductByStock(System *system) {
   int options;
