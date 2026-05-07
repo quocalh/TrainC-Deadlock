@@ -31,46 +31,50 @@ void SystemExit(System *system) {
 // 1
 void SystemAddNewProduct(System *system) {
   unsigned int QuanityofProduct;
-  printf("Enter the Quanity of New Product: ");
+  printf("Nhap so luong loai san pham muon them: ");
   scanf("%u", &QuanityofProduct);
 
   for (uint i = 0; i < QuanityofProduct; i++) {
+    printf("\n--- Nhap thong tin san pham thu %u ---\n", i + 1);
+    
     char productName[100];
-    printf("Enter the new product name: ");
+    printf("Nhap ten san pham: ");
     scanf(" %[^\n]", productName);
 
     char Category[100];
-    printf("Enter product category: ");
+    printf("Nhap loai san pham (Category): ");
     scanf(" %[^\n]", Category);
 
     int quantity;
-    printf("Enter the quantity of products: ");
+    printf("Nhap so luong san pham: ");
     scanf("%d", &quantity);
 
     unsigned long int priceImport;
-    printf("Enter entry price: ");
+    printf("Nhap gia nhap hang: ");
     scanf("%lu", &priceImport);
 
     unsigned long int priceSelling;
-    printf("Enter the selling price: ");
+    printf("Nhap gia ban ra: ");
     scanf("%lu", &priceSelling);
 
     unsigned int lowStockThreshold;
-    printf("Enter the lowStockThreshold: ");
+    printf("Nhap nguong bao dong sap het hang: ");
     scanf("%u", &lowStockThreshold);
 
-    printf("Added successfully!\n");
-
+    // Goi ham de luu vao bo nho tam
     productArrayAddProduct(&system->product_array, productName, Category,
                            quantity, priceImport, priceSelling,
                            lowStockThreshold, 0);
-    printf("count: %d\n", system->product_array.count);
+
+    printf(">> Them san pham thanh cong!\n");
+    printf("Tong so san pham hien co: %d\n", system->product_array.count);
+
+    // Ghi thong tin vao file de luu tru lau dai
     systemFileAppendProduct(
         &system->system_file_product,
         &system->product_array.ptr[system->product_array.count - 1]);
   }
 }
-
 // 2:
 void SystemModifyProduct(System *system) {
   unsigned int ChosenID;
