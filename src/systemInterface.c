@@ -9,7 +9,7 @@ void Interface() {
   printf("\n2. Sua thong tin san pham");                         // done 2
   printf("\n3. Xoa san pham");                                   // done 3
   printf("\n4. Ban hang / nhap hang");                           // done 4
-  printf("\n5. Sap xep va hien thi san pham");                   // done 5
+  printf("\n5. Hien thi san pham");                              // done 5
   printf("\n6. Tim kiem san pham theo ID");                      // done 6
   printf("\n7. Tim kiem san pham theo ten");                     // done 6.1
   printf("\n8. Hien thi nhung mat hang sap het");                // done 7
