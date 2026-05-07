@@ -234,6 +234,8 @@ void SystemUpdateStock(System *system) {
 
   TransactionArrayAddTransaction(&system->transaction_array, productID,
                                  time_stamp, quantity, isForSelling);
+  Transaction transaction = {productID, quantity, time_stamp, isForSelling};
+  systemFileAppendTransaction(&system->system_file_transaction, &transaction);
 
   if (isForSelling == 1) {
     system->product_array.ptr[productID].quantity -= quantity;
@@ -271,6 +273,12 @@ void SystemSearchProductByID(System *system) {
   uint productID;
   printf("Nhap ID san pham can tim: ");
   scanf("%d", &productID);
+
+  if (productID >= system->product_array.count - 1) {
+    printf("Hien khong co san pham voi so ID tuong xung\n");
+    return;
+  }
+
   Product *product = &system->product_array.ptr[productID];
   printf("ID: %d | Name: %s | Category: %s | PriceImport: %ld | "
          "PriceSelling: %ld | LowStockThreHold: %d\n",
@@ -359,7 +367,7 @@ void SystemLowStockWarning(System *system) {
 }
 
 // 9
-void SystemProductTransactionHistory(System *system) {
+void SystemDisplayTransaction(System *system) {
   unsigned int ChosenID;
   printf("Nhap ID vao: ");
   scanf("%d", &ChosenID);
@@ -399,6 +407,7 @@ void SystemCalculateProfit(System *system) {
   }
   printf("Profit = %d\n", sum_profit);
 }
+
 // 11:
 void SystemSetLowStockThreshold(System *system) {
   unsigned int targetID;
@@ -435,6 +444,9 @@ void SystemSetLowStockThreshold(System *system) {
   pArray->ptr[targetIndex].lowStockThreshold = newThreshold;
   printf("Nguong canh bao cho san pham ten '%s' thanh %u \n",
          pArray->ptr[targetIndex].ProductName, newThreshold);
+
+  systemFileModifyProduct(&system->system_file_product,
+                          &system->product_array.ptr[targetID]);
 }
 
 // 12:

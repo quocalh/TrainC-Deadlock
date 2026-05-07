@@ -53,7 +53,8 @@ void SystemWriteFile(System *system, int ProductID, char *productName,
                      unsigned long int priceSelling);
 
 // 9: (done)
-void SystemProductTransactionHistory(System *system);
+void SystemDisplayTransaction(System *system);
+
 // 10: (done)
 void SystemCalculateProfit(System *system);
 

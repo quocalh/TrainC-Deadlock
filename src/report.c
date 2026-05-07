@@ -6,10 +6,11 @@
 #include "../inc/transactionArray.h"
 #include <stdio.h>
 
-void SystemLogStock(System *system, systemFile *system_file) {
-  FILE *file_ptr = fopen((*system_file).fileName, "w");
+void SystemLogStockAndTransaction(System *system) {
+
+  FILE *file_ptr = fopen(system->system_file_report.fileName, "w");
   if (file_ptr == NULL) {
-    printf("Khong the mo file: %s\n", (*system_file).fileName);
+    printf("Khong the mo file: %s\n", system->system_file_report.fileName);
     return;
   }
 
