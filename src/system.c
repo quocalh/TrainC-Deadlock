@@ -393,17 +393,23 @@ void SystemLowStockWarning(System *system) {
     if (p->quantity < p->lowStockThreshold) {
       printf("%-5d | %-20s | %-5lu | %-10u | ", p->ProductID, p->ProductName,
              p->quantity, p->lowStockThreshold);
+      printf(COLOR_RED);
       printf("red\n");
+      printf(COLOR_NORMAL);
       lowStockCount++;
     } else if (p->quantity == p->lowStockThreshold) {
       printf("%-5d | %-20s | %-5lu | %-10u | ", p->ProductID, p->ProductName,
              p->quantity, p->lowStockThreshold);
+      printf(COLOR_YELLOW);
       printf("yellow\n");
+      printf(COLOR_NORMAL);
       lowStockCount++;
     } else if (options == 1) {
       printf("%-5d | %-20s | %-5lu | %-10u | ", p->ProductID, p->ProductName,
              p->quantity, p->lowStockThreshold);
+      printf(COLOR_GREEN);
       printf("green\n");
+      printf(COLOR_NORMAL);
     }
   }
   printf("Tong so san pham sap het hang: %u\n", lowStockCount);
