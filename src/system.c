@@ -29,23 +29,26 @@ void SystemExit(System *system) {
 }
 
 void SystemDisplayField() {
-  printf("-----------------------------------------------------------------------"
-         "---------------------------------------------------\n");
-  printf("%-5s | %-30s | %-25s | %-13s | %-13s | %-8s | %-20s\n", "ID", "Ten", "Loai",
-         "Gia Nhap", "Gia Ban", "Nguong", "Ton Kho");
-  printf("-----------------------------------------------------------------------"
-         "---------------------------------------------------\n");
+  printf(
+      "-----------------------------------------------------------------------"
+      "---------------------------------------------------\n");
+  printf("%-5s | %-30s | %-25s | %-13s | %-13s | %-8s | %-20s\n", "ID", "Ten",
+         "Loai", "Gia Nhap", "Gia Ban", "Nguong", "Ton Kho");
+  printf(
+      "-----------------------------------------------------------------------"
+      "---------------------------------------------------\n");
 }
 
 void SystemDisplaySingleProduct(Product *ModifyingProduct) {
 
-  printf("%-5d | %-30s | %-25s | %-13ld | %-13ld | %-8d | %-20d\n",
+  printf("%-5d | %-30s | %-25s | %-13ld | %-13ld | %-8d | %-20lu\n",
          ModifyingProduct->ProductID, ModifyingProduct->ProductName,
          ModifyingProduct->Category, ModifyingProduct->priceImport,
          ModifyingProduct->priceSelling, ModifyingProduct->lowStockThreshold,
          ModifyingProduct->quantity);
-  printf("-----------------------------------------------------------------------"
-         "---------------------------------------------------\n");
+  printf(
+      "-----------------------------------------------------------------------"
+      "---------------------------------------------------\n");
 }
 
 // 1
@@ -161,8 +164,8 @@ void SystemModifyProduct(System *system) {
   // Print result
   printf("---------------------------------------------------------------------"
          "-------------------------------------------------\n");
-  printf("%-5s | %-30s | %-25s | %-13s | %-13s | %-8s | %-20s\n", "ID", "Ten", "Loai",
-         "Gia Nhap", "Gia Ban", "Nguong", "Ton Kho");
+  printf("%-5s | %-30s | %-25s | %-13s | %-13s | %-8s | %-20s\n", "ID", "Ten",
+         "Loai", "Gia Nhap", "Gia Ban", "Nguong", "Ton Kho");
   printf("---------------------------------------------------------------------"
          "-------------------------------------------------\n");
 
@@ -322,10 +325,10 @@ void SystemSearchProductByID(System *system) {
   }
 
   Product *product = &system->product_array.ptr[productID];
-   SystemDisplayField();
-   SystemDisplaySingleProduct(product);
-
+  SystemDisplayField();
+  SystemDisplaySingleProduct(product);
 }
+
 // 6.1
 void SystemSearchProductByName(System *system) {
   char search_string[MAX_STRING_LENGTH];
@@ -338,6 +341,12 @@ void SystemSearchProductByName(System *system) {
   int found = 0;
   int len_search = strlen(search_string);
 
+  printf("-------------------------------------------------------------------"
+         "------------------------------------------\n");
+  printf("%-5s | %-30s | %-25s | %-13s | %-13s | %-8s | %-20s\n", "ID", "Ten",
+         "Loai", "Gia Nhap", "Gia Ban", "Nguong", "Ton Kho");
+  printf("-------------------------------------------------------------------"
+         "------------------------------------------\n");
   for (uint i = 0; i < system->product_array.count; i++) {
     Product *product = &system->product_array.ptr[i];
 
@@ -347,15 +356,22 @@ void SystemSearchProductByName(System *system) {
     if (index != -1) {
       found = 1;
 
-      printf("ID: %d | Name: %s | Category: %s | PriceImport: %ld | "
-             "PriceSelling: %ld | LowStockThreHold: %d\n",
-             product->ProductID, product->ProductName, product->Category,
-             product->priceImport, product->priceSelling,
-             product->lowStockThreshold);
+      char highlighted_str[MAX_STRING_LENGTH + 50];
+      string_highlighting(COLOR_RED, search_string, product->ProductName,
+                          len_search, strlen(product->ProductName), index,
+                          highlighted_str);
 
-      highlighting(COLOR_RED, search_string, product->ProductName, len_search,
-                   strlen(product->ProductName), index);
-      printf("\n");
+      printf("%-5d | %-30s | %-25s | %-13ld | %-13ld | %-8d | %-20lu\n",
+             product->ProductID, highlighted_str, product->Category,
+             product->priceImport, product->priceSelling,
+             product->lowStockThreshold, product->quantity);
+      printf(
+          "-------------------------------------------------------------------"
+          "------------------------------------------\n");
+
+      // highlighting(COLOR_RED, search_string, product->ProductName,
+      // len_search,
+      //              strlen(product->ProductName), index);
     }
   }
 
@@ -383,12 +399,8 @@ void SystemLowStockWarning(System *system) {
   printf("---------------------------------------------------------------------"
          "----------------------------------------\n");
 
-  printf("%-5s | %-20s | %-10s | %-10s | %-13s\n",
-         "ID",
-         "Ten San Pham",
-         "Ton Kho",
-         "Dinh Muc",
-         "Trang Thai");
+  printf("%-5s | %-20s | %-10s | %-10s | %-13s\n", "ID", "Ten San Pham",
+         "Ton Kho", "Dinh Muc", "Trang Thai");
 
   printf("---------------------------------------------------------------------"
          "----------------------------------------\n");
