@@ -39,10 +39,11 @@ void SystemDisplayField() {
 
 void SystemDisplaySingleProduct(Product *ModifyingProduct) {
 
-  printf("%-5d | %-30s | %-25s | %-13ld | %-13ld | %-8d\n",
+  printf("%-5d | %-30s | %-25s | %-13ld | %-13ld | %-8d | %-20d\n",
          ModifyingProduct->ProductID, ModifyingProduct->ProductName,
          ModifyingProduct->Category, ModifyingProduct->priceImport,
-         ModifyingProduct->priceSelling, ModifyingProduct->lowStockThreshold);
+         ModifyingProduct->priceSelling, ModifyingProduct->lowStockThreshold,
+         ModifyingProduct->quantity);
 
   printf("---------------------------------------------------------------------"
          "----------------------------------------\n");
@@ -161,15 +162,16 @@ void SystemModifyProduct(System *system) {
   // Print result
   printf("---------------------------------------------------------------------"
          "----------------------------------------\n");
-  printf("%-5s | %-30s | %-25s | %-13s | %-13s | %-8s\n", "ID", "Ten", "Loai",
-         "Gia Nhap", "Gia Ban", "Nguong");
+  printf("%-5s | %-30s | %-25s | %-13s | %-13s | %-8s | %-20s\n", "ID", "Ten", "Loai",
+         "Gia Nhap", "Gia Ban", "Nguong", "Ton Kho");
   printf("---------------------------------------------------------------------"
          "----------------------------------------\n");
 
-  printf("%-5d | %-30s | %-25s | %-13ld | %-13ld | %-8d\n",
+  printf("%-5d | %-30s | %-25s | %-13ld | %-13ld | %-8d | %-20lu\n",
          ModifyingProduct->ProductID, ModifyingProduct->ProductName,
          ModifyingProduct->Category, ModifyingProduct->priceImport,
-         ModifyingProduct->priceSelling, ModifyingProduct->lowStockThreshold);
+         ModifyingProduct->priceSelling, ModifyingProduct->lowStockThreshold,
+         ModifyingProduct->quantity);
   printf("---------------------------------------------------------------------"
          "----------------------------------------\n");
   // File save the changes
@@ -276,8 +278,12 @@ void SystemUpdateStock(System *system) {
 
   if (isForSelling == 1) {
     system->product_array.ptr[productID].quantity -= quantity;
+    SystemDisplayField();
+    SystemDisplaySingleProduct(&system->product_array.ptr[productID]);
   } else {
     system->product_array.ptr[productID].quantity += quantity;
+    SystemDisplayField();
+    SystemDisplaySingleProduct(&system->product_array.ptr[productID]);
   }
   // to change the quantity
   systemFileModifyProduct(&system->system_file_product,
