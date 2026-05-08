@@ -29,12 +29,12 @@ void SystemExit(System *system) {
 }
 
 void SystemDisplayField() {
-  printf("---------------------------------------------------------------------"
-         "-------------------------------------------------\n");
+  printf("-----------------------------------------------------------------------"
+         "---------------------------------------------------\n");
   printf("%-5s | %-30s | %-25s | %-13s | %-13s | %-8s | %-20s\n", "ID", "Ten", "Loai",
          "Gia Nhap", "Gia Ban", "Nguong", "Ton Kho");
-  printf("---------------------------------------------------------------------"
-         "-------------------------------------------------\n");
+  printf("-----------------------------------------------------------------------"
+         "---------------------------------------------------\n");
 }
 
 void SystemDisplaySingleProduct(Product *ModifyingProduct) {
@@ -44,9 +44,8 @@ void SystemDisplaySingleProduct(Product *ModifyingProduct) {
          ModifyingProduct->Category, ModifyingProduct->priceImport,
          ModifyingProduct->priceSelling, ModifyingProduct->lowStockThreshold,
          ModifyingProduct->quantity);
-
-  printf("---------------------------------------------------------------------"
-         "-------------------------------------------------\n");
+  printf("-----------------------------------------------------------------------"
+         "---------------------------------------------------\n");
 }
 
 // 1
@@ -323,21 +322,9 @@ void SystemSearchProductByID(System *system) {
   }
 
   Product *product = &system->product_array.ptr[productID];
-  printf("\n-------------------------------------------------------------------"
-         "------------------------------------------\n");
+   SystemDisplayField();
+   SystemDisplaySingleProduct(product);
 
-  printf("%-5s | %-30s | %-25s | %-12s | %-12s | %-10s\n", "ID", "Ten", "Loai",
-         "Gia Nhap", "Gia Ban", "Nguong");
-
-  printf("---------------------------------------------------------------------"
-         "----------------------------------------\n");
-
-  printf("%-5d | %-30s | %-25s | %-12ld | %-12ld | %-10d\n", product->ProductID,
-         product->ProductName, product->Category, product->priceImport,
-         product->priceSelling, product->lowStockThreshold);
-
-  printf("---------------------------------------------------------------------"
-         "----------------------------------------\n");
 }
 // 6.1
 void SystemSearchProductByName(System *system) {
@@ -394,11 +381,17 @@ void SystemLowStockWarning(System *system) {
     }
   unsigned int lowStockCount = 0;
   printf("---------------------------------------------------------------------"
-         "-----------\n");
-  printf("%-5s | %-20s | %-10s | %-10s | %-15s\n", "ID", "Ten San Pham",
-         "Ton Kho", "Dinh Muc", "Trang Thai");
+         "----------------------------------------\n");
+
+  printf("%-5s | %-20s | %-10s | %-10s | %-13s\n",
+         "ID",
+         "Ten San Pham",
+         "Ton Kho",
+         "Dinh Muc",
+         "Trang Thai");
+
   printf("---------------------------------------------------------------------"
-         "-----------\n");
+         "----------------------------------------\n");
   for (uint i = 0; i < system->product_array.count; i++) {
     Product *p = &(system->product_array.ptr[i]);
     if (p->isDeleted)
