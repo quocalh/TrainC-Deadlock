@@ -47,6 +47,7 @@ void SystemDisplaySingleProduct(Product *ModifyingProduct) {
   printf("---------------------------------------------------------------------"
          "----------------------------------------\n");
 }
+
 // 1
 void SystemAddNewProduct(System *system) {
   unsigned int QuanityofProduct;
