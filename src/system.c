@@ -28,6 +28,25 @@ void SystemExit(System *system) {
   TransactionArrayFree(&system->transaction_array);
 }
 
+void SystemDisplayField() {
+  printf("---------------------------------------------------------------------"
+         "----------------------------------------\n");
+  printf("%-5s | %-30s | %-25s | %-13s | %-13s | %-8s\n", "ID", "Ten", "Loai",
+         "Gia Nhap", "Gia Ban", "Nguong");
+  printf("---------------------------------------------------------------------"
+         "----------------------------------------\n");
+}
+
+void SystemDisplaySingleProduct(Product *ModifyingProduct) {
+
+  printf("%-5d | %-30s | %-25s | %-13ld | %-13ld | %-8d\n",
+         ModifyingProduct->ProductID, ModifyingProduct->ProductName,
+         ModifyingProduct->Category, ModifyingProduct->priceImport,
+         ModifyingProduct->priceSelling, ModifyingProduct->lowStockThreshold);
+
+  printf("---------------------------------------------------------------------"
+         "----------------------------------------\n");
+}
 // 1
 void SystemAddNewProduct(System *system) {
   unsigned int QuanityofProduct;
@@ -36,7 +55,7 @@ void SystemAddNewProduct(System *system) {
 
   for (uint i = 0; i < QuanityofProduct; i++) {
     printf("\n--- Nhap thong tin san pham thu %u ---\n", i + 1);
-    
+
     char productName[100];
     printf("Nhap ten san pham: ");
     scanf(" %[^\n]", productName);
@@ -74,7 +93,15 @@ void SystemAddNewProduct(System *system) {
         &system->system_file_product,
         &system->product_array.ptr[system->product_array.count - 1]);
   }
+
+  SystemDisplayField();
+  for (uint i = system->product_array.count - QuanityofProduct;
+       i < system->product_array.count; i++) {
+    Product *product = &system->product_array.ptr[i];
+    SystemDisplaySingleProduct(product);
+  }
 }
+
 // 2:
 void SystemModifyProduct(System *system) {
   unsigned int ChosenID;
@@ -131,30 +158,19 @@ void SystemModifyProduct(System *system) {
   }
 
   // Print result
-  printf("\n-------------------------------------------------------------------"
-           "------------------------------------------\n");
+  printf("---------------------------------------------------------------------"
+         "----------------------------------------\n");
+  printf("%-5s | %-30s | %-25s | %-13s | %-13s | %-8s\n", "ID", "Ten", "Loai",
+         "Gia Nhap", "Gia Ban", "Nguong");
+  printf("---------------------------------------------------------------------"
+         "----------------------------------------\n");
 
-    printf("%-5s | %-30s | %-25s | %-12s | %-12s | %-8s\n",
-           "ID",
-           "Ten",
-           "Loai",
-           "Gia Nhap",
-           "Gia Ban",
-           "Nguong");
-
-    printf("\n-------------------------------------------------------------------"
-           "------------------------------------------\n");
-
-    printf("%-5d | %-30s | %-25s | %-12ld | %-12ld | %-8d\n",
-           ModifyingProduct->ProductID,
-           ModifyingProduct->ProductName,
-           ModifyingProduct->Category,
-           ModifyingProduct->priceImport,
-           ModifyingProduct->priceSelling,
-           ModifyingProduct->lowStockThreshold);
-
-    printf("\n-------------------------------------------------------------------"
-           "------------------------------------------\n");
+  printf("%-5d | %-30s | %-25s | %-13ld | %-13ld | %-8d\n",
+         ModifyingProduct->ProductID, ModifyingProduct->ProductName,
+         ModifyingProduct->Category, ModifyingProduct->priceImport,
+         ModifyingProduct->priceSelling, ModifyingProduct->lowStockThreshold);
+  printf("---------------------------------------------------------------------"
+         "----------------------------------------\n");
   // File save the changes
   systemFileModifyProduct(&system->system_file_product,
                           &system->product_array.ptr[ChosenID]);
@@ -205,8 +221,6 @@ void SystemDeleteProduct(System *system) {
   pArray->ptr[targetIndex].isDeleted = 1;
   printf("Da danh dau het hang san pham ID %d thanh cong.\n", productID);
 
-  // systemFileMarkDeleteProduct(&system->system_file_product,
-  //                             &system->product_array.ptr[productID]);
   systemFileModifyProduct(&system->system_file_product,
                           &system->product_array.ptr[productID]);
 }
@@ -274,9 +288,9 @@ void SystemDisplayProduct(System *system) {
   productArray *product_Array = &((*system).product_array);
   printf("\n-------------------------------------------------------------------"
          "------------------------------------------\n");
-  printf("%-5s | %-30s | %-25s | %-12s | %-12s | %-8s\n", "ID", "Ten",
-         "Loai", "Gia Nhap", "Gia Ban", "Nguong");
-  printf("\n-------------------------------------------------------------------"
+  printf("%-5s | %-30s | %-25s | %-12s | %-12s | %-8s\n", "ID", "Ten", "Loai",
+         "Gia Nhap", "Gia Ban", "Nguong");
+  printf("-------------------------------------------------------------------"
          "------------------------------------------\n");
   for (unsigned int i = 0; i < (*product_Array).count; i++) {
     printf(
@@ -285,9 +299,9 @@ void SystemDisplayProduct(System *system) {
         (*product_Array).ptr[i].Category, (*product_Array).ptr[i].priceImport,
         (*product_Array).ptr[i].priceSelling,
         (*product_Array).ptr[i].lowStockThreshold);
+    printf("-------------------------------------------------------------------"
+           "------------------------------------------\n");
   }
-  printf("\n-------------------------------------------------------------------"
-         "------------------------------------------\n");
 }
 
 // 6
@@ -302,27 +316,21 @@ void SystemSearchProductByID(System *system) {
   }
 
   Product *product = &system->product_array.ptr[productID];
-  printf("\n-------------------------------------------------------------------------------------------------------------\n");
+  printf("\n-------------------------------------------------------------------"
+         "------------------------------------------\n");
 
-  printf("%-5s | %-30s | %-25s | %-12s | %-12s | %-10s\n",
-       "ID",
-       "Ten",
-       "Loai",
-       "Gia Nhap",
-       "Gia Ban",
-       "Nguong");
+  printf("%-5s | %-30s | %-25s | %-12s | %-12s | %-10s\n", "ID", "Ten", "Loai",
+         "Gia Nhap", "Gia Ban", "Nguong");
 
-  printf("-------------------------------------------------------------------------------------------------------------\n");
+  printf("---------------------------------------------------------------------"
+         "----------------------------------------\n");
 
-  printf("%-5d | %-30s | %-25s | %-12ld | %-12ld | %-10d\n",
-       product->ProductID,
-       product->ProductName,
-       product->Category,
-       product->priceImport,
-       product->priceSelling,
-       product->lowStockThreshold);
+  printf("%-5d | %-30s | %-25s | %-12ld | %-12ld | %-10d\n", product->ProductID,
+         product->ProductName, product->Category, product->priceImport,
+         product->priceSelling, product->lowStockThreshold);
 
-  printf("-------------------------------------------------------------------------------------------------------------\n");
+  printf("---------------------------------------------------------------------"
+         "----------------------------------------\n");
 }
 // 6.1
 void SystemSearchProductByName(System *system) {
@@ -378,34 +386,35 @@ void SystemLowStockWarning(System *system) {
       return;
     }
   unsigned int lowStockCount = 0;
-  printf("--------------------------------------------------------------------------------\n");
-  printf("%-5s | %-20s | %-10s | %-10s | %-15s\n",
-           "ID",       
-           "Ten San Pham",       
-           "Ton Kho",       
-           "Dinh Muc",       
-           "Trang Thai");
-   printf("--------------------------------------------------------------------------------\n");
+  printf("---------------------------------------------------------------------"
+         "-----------\n");
+  printf("%-5s | %-20s | %-10s | %-10s | %-15s\n", "ID", "Ten San Pham",
+         "Ton Kho", "Dinh Muc", "Trang Thai");
+  printf("---------------------------------------------------------------------"
+         "-----------\n");
   for (uint i = 0; i < system->product_array.count; i++) {
     Product *p = &(system->product_array.ptr[i]);
     if (p->isDeleted)
       continue;
+
     if (p->quantity < p->lowStockThreshold) {
-      printf("%-5d | %-20s | %-5lu | %-10u | ", p->ProductID, p->ProductName,
+      printf("%-5d | %-20s | %-10lu | %-10u | ", p->ProductID, p->ProductName,
              p->quantity, p->lowStockThreshold);
       printf(COLOR_RED);
       printf("red\n");
       printf(COLOR_NORMAL);
       lowStockCount++;
+
     } else if (p->quantity == p->lowStockThreshold) {
-      printf("%-5d | %-20s | %-5lu | %-10u | ", p->ProductID, p->ProductName,
+      printf("%-5d | %-20s | %-10lu | %-10u | ", p->ProductID, p->ProductName,
              p->quantity, p->lowStockThreshold);
       printf(COLOR_YELLOW);
       printf("yellow\n");
       printf(COLOR_NORMAL);
       lowStockCount++;
+
     } else if (options == 1) {
-      printf("%-5d | %-20s | %-5lu | %-10u | ", p->ProductID, p->ProductName,
+      printf("%-5d | %-20s | %-10lu | %-10u | ", p->ProductID, p->ProductName,
              p->quantity, p->lowStockThreshold);
       printf(COLOR_GREEN);
       printf("green\n");
