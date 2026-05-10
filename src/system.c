@@ -632,11 +632,9 @@ int SystemDisplayProductByStock(System *system) {
       }
     }
   }
-  printf("%-20s | %-10s\n", "Ten San Pham", "Ton Kho");
+    SystemDisplayField();
   for (uint i = 0; i < system->product_array.count; i++) {
-    char *name = system->product_array.ptr[sort_ptr[i]].ProductName;
-    uint qtt = system->product_array.ptr[sort_ptr[i]].quantity;
-    printf("%-20s | %-10u\n", name, qtt);
+    SystemDisplaySingleProduct(&system->product_array.ptr[sort_ptr[i]]);
   }
   free(sort_ptr);
   return 1;
