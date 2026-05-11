@@ -213,12 +213,14 @@ void SystemDeleteProduct(System *system) {
   printf("Xac nhan xoa '%s' (ID: %d)? (y/n): ",
          pArray->ptr[targetIndex].ProductName, productID);
   scanf(" %c", &confirm);
+
   if (confirm != 'y' && confirm != 'Y') {
     printf("Huy thao tac xoa.\n");
     return;
   }
   printf("CANH BAO: Du lieu se bi danh dau xoa vinh vien. Chac chan? (y/n): ");
   scanf(" %c", &confirm);
+
   if (confirm != 'y' && confirm != 'Y') {
     printf("Huy thao tac xoa o buoc cuoi.\n");
     return;
@@ -543,9 +545,10 @@ int SystemDisplayProductByCategories(System *system) {
       }
     }
   }
+  SystemDisplayField();
   for (uint i = 0; i < system->product_array.count; i++) {
-    char *bijection_string = system->product_array.ptr[sort_ptr[i]].Category;
-    printf("%s\n", bijection_string);
+    Product *bijection_product = &system->product_array.ptr[sort_ptr[i]];
+    SystemDisplaySingleProduct(bijection_product);
   }
   free(sort_ptr);
   return 1;
@@ -577,9 +580,11 @@ int SystemDisplaySortedProductByAlphabeticOrder(System *system) {
       }
     }
   }
+
+  SystemDisplayField();
   for (uint i = 0; i < system->product_array.count; i++) {
-    char *bijection_string = system->product_array.ptr[ptr[i]].ProductName;
-    printf("%s\n", bijection_string);
+    Product *bijection_product = &system->product_array.ptr[ptr[i]];
+    SystemDisplaySingleProduct(bijection_product);
   }
   free(ptr);
   return 1;
@@ -632,7 +637,8 @@ int SystemDisplayProductByStock(System *system) {
       }
     }
   }
-    SystemDisplayField();
+
+  SystemDisplayField();
   for (uint i = 0; i < system->product_array.count; i++) {
     SystemDisplaySingleProduct(&system->product_array.ptr[sort_ptr[i]]);
   }

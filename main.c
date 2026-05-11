@@ -10,8 +10,8 @@ int main() {
 
   SystemInit(&system);
 
-  int running = 1;
-  int option = -1;
+  uint running = 1;
+  uint option = -1;
 
   systemFileLoadProductArray(&system.system_file_product,
                              &system.product_array);
