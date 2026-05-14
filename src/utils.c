@@ -199,3 +199,148 @@ void *AlphabeticSort(unsigned int l, char str_array[][l], unsigned int count) {
 //   unsigned int *output_array = AlphabeticSort(50, what_the_hell, 50);
 //
 //   free(output_array);
+char *decimal_lexical(int a) {
+  switch (a) {
+  case 0:
+    return "don vi";
+
+  case 1:
+    return "chuc";
+
+  case 2:
+    return "tram";
+
+  case 3:
+    return "ngan";
+
+  case 6:
+    return "trieu";
+
+  case 9:
+    return "ti";
+
+  default:
+    printf("%d", a);
+    return "";
+  }
+}
+
+char *digitconversion(int a) {
+  switch (a) {
+  case 0:
+    return "khong";
+  case 1:
+    return "mot";
+  case 2:
+    return "hai";
+  case 3:
+    return "ba";
+  case 4:
+    return "bon";
+  case 5:
+    return "nam";
+  case 6:
+    return "sau";
+  case 7:
+    return "bay";
+  case 8:
+    return "tam";
+  case 9:
+    return "chin";
+  default:
+    return "invalid";
+  }
+}
+
+int *NumberToDigitArray(long int n, int *size) {
+  if (n < 0) {
+    printf("no negative number\n");
+    return NULL;
+  }
+
+  *size = 0;
+
+  if (n == 0) {
+    *size = 1;
+
+    int *digits = malloc(sizeof(int));
+    digits[0] = 0;
+
+    return digits;
+  }
+
+  int temp = n;
+
+  while (temp > 0) {
+    (*size)++;
+    temp /= 10;
+  }
+
+  int *digits = malloc(sizeof(int) * (*size));
+
+  for (int i = (*size) - 1; i >= 0; i--) {
+    digits[i] = n % 10;
+    n /= 10;
+  }
+
+  return digits;
+}
+
+void IntToLexicalHundredCoupling(int arr[], int p) {
+  for (int i = 2; i >= 0; i--) {
+    // for arr = [9, ..] and p = 0 -> access indicies: [-2, -1, 0]
+    // those -1, -2 are out of reach -> discard those
+    if (p - i < 0) {
+      continue;
+    }
+
+    // turning digit into words: 3 -> ba
+    // if (arr[p - i] == 1) {
+    //
+    // } else {
+    printf("%s ", digitconversion(arr[p - i]));
+    // }
+
+    // [2, 1, 0]-> tram, chuc, don vi
+    if (i == 0) {
+
+    } else {
+      printf("%s ", decimal_lexical(i));
+    }
+  }
+}
+
+void IntToLexicalCoupling(long int number) {
+  if (number < 0) {
+    printf("am ");
+    number = -number;
+  }
+  int size = 0;
+  int *arr = NumberToDigitArray(number, &size);
+
+  // for (int i = 0; i < size; i++) {
+  //   printf("%d", arr[i]);
+  // }
+
+  int p = size - 1;
+  while (1) {
+    if (p <= 0) {
+      break;
+    }
+    p -= 3;
+  }
+  while (p < size) {
+    IntToLexicalHundredCoupling(arr, p);
+
+    if (p >= 0) {
+      printf("%s ", decimal_lexical(size - p - 1));
+    }
+
+    p += 3;
+  }
+
+  printf("\n");
+  free(arr);
+
+  // turning numbers into a digit array
+}

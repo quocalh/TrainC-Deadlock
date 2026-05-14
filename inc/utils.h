@@ -27,10 +27,10 @@ void highlighting(char *color, char *keyword, char *str, uint l_s, uint l_str,
                   uint start);
 void string_highlighting(char *color, char *keyword, char *str, uint l_s,
                          uint l_str, uint start, char *return_str);
-// alphabet sorting
-// strcasecmp should do the trick
 
-// quantity s
 float QuantitySortingEvaluatingScores(uint quantity, uint threshold);
 
+int *NumberToDigitArray(long int n, int *size);
+
+void IntToLexicalCoupling(long int number);
 #endif

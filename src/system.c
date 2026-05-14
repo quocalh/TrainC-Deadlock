@@ -463,7 +463,7 @@ void SystemDisplayTransaction(System *system) {
 
 // 10:
 void SystemCalculateProfit(System *system) {
-  int sum_profit;
+  long int sum_profit;
   sum_profit = 0;
   for (uint i = 0; i < system->transaction_array.count; i++) {
     Transaction *transaction = &system->transaction_array.ptr[i];
@@ -478,7 +478,8 @@ void SystemCalculateProfit(System *system) {
       sum_profit -= Import * (transaction->quantity);
     }
   }
-  printf("Profit = %d\n", sum_profit);
+  printf("Profit = %ld\n", sum_profit);
+  IntToLexicalCoupling(sum_profit);
 }
 
 // 11:
